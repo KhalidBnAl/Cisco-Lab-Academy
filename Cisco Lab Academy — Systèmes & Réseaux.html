@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cisco Lab Academy — Systèmes & Réseaux</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#e7edf3;--sf:#fff;--ink:#13202d;--mut:#586a7c;--ln:#cbd5df;--bl:#0a62e0;--bl2:#dbe8fd;--tm:#0e1620;--tk:#e6eff8;--pg:#6fd3a0;--ok:#128a4b;--wn:#a86f00;--bd:#cf2f45;--okb:#dff5e8;--bdb:#fde3e7;--wnb:#fff1cf}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1118;--sf:#141d28;--ink:#e5edf6;--mut:#8fa1b5;--ln:#243346;--bl:#5aa2ff;--bl2:#17304f;--tm:#05090d;--ok:#3fd184;--wn:#f0b429;--bd:#ff6b7e;--okb:#12301f;--bdb:#3a1620;--wnb:#33280d}}
+:root[data-theme="dark"]{--bg:#0b1118;--sf:#141d28;--ink:#e5edf6;--mut:#8fa1b5;--ln:#243346;--bl:#5aa2ff;--bl2:#17304f;--tm:#05090d;--ok:#3fd184;--wn:#f0b429;--bd:#ff6b7e;--okb:#12301f;--bdb:#3a1620;--wnb:#33280d}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 'Bricolage Grotesque',system-ui,'Segoe UI',sans-serif}
+code,.mono,input,.term{font-family:'IBM Plex Mono',ui-monospace,Consolas,monospace}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--bl);outline-offset:2px}
+h1,h2,h3{line-height:1.15;margin:0 0 .5em;letter-spacing:-.01em}h2{font-size:1.7rem}h3{font-size:1.15rem}
+p{margin:0 0 .8em}
+.app{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:100%}
+.rack{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;overflow:auto;padding:18px 14px;background:var(--tm);color:#dbe7f3;display:flex;flex-direction:column;gap:14px}
+.brand b{font-size:1.25rem;display:block;color:#fff}.brand small{color:#8fa4b9}
+.navs{display:flex;flex-direction:column;gap:6px}
+.nv{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #223244;background:#0b141d;color:#c9d8e6;padding:10px 12px;border-radius:8px}
+.nv i{width:9px;height:9px;border-radius:50%;background:#33475b;flex:none}
+.nv:hover{border-color:#3d5a78}.nv[aria-current="true"]{background:#12304f;border-color:#4a9bff;color:#fff}.nv[aria-current="true"] i{background:#3fd184;box-shadow:0 0 8px #3fd184}
+.xp{border:1px solid #223244;border-radius:10px;padding:12px;font-size:.9rem}.bar{height:8px;border-radius:9px;background:#1a2a3a;overflow:hidden;margin:8px 0}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#4a9bff,#3fd184);transition:width .4s}
+.theme{border:1px solid #223244;background:none;color:#9fb3c6;padding:8px;border-radius:8px}
+main{padding:26px clamp(14px,3vw,40px) 60px;max-width:1180px;width:100%}
+.tab[hidden]{display:none}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:center;background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:26px}
+.hero h1{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:800}.hero p{color:var(--mut);max-width:52ch}
+.topo{width:100%;height:auto}.topo .nd{fill:var(--bl2);stroke:var(--bl);stroke-width:2}.topo .ln{stroke:var(--mut);stroke-width:2;opacity:.55}.topo text{fill:var(--ink);font:600 12px 'IBM Plex Mono',monospace;text-anchor:middle}.topo .pk{fill:var(--ok)}
+.ring{display:flex;gap:14px;align-items:center;margin-top:16px}.ring svg{width:84px;height:84px;flex:none}.ring circle{fill:none;stroke-width:9}.ring .bg{stroke:var(--ln)}.ring .fg{stroke:var(--ok);stroke-linecap:round;transition:stroke-dashoffset .6s;transform:rotate(-90deg);transform-origin:50% 50%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:18px}
+.mc{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px;text-align:left;display:block;width:100%}.mc:hover{border-color:var(--bl)}.mc b{display:block;font-size:1.05rem}.mc span{color:var(--mut);font-size:.92rem}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.search{flex:1;min-width:200px;padding:11px 14px;border-radius:10px;border:1px solid var(--ln);background:var(--sf);color:var(--ink);font-size:.95rem}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:6px 0 16px}.chip{border:1px solid var(--ln);background:var(--sf);border-radius:99px;padding:6px 12px;font-size:.9rem}.chip b{color:var(--mut);font-weight:600;margin-left:3px}.chip[aria-pressed="true"]{background:var(--bl);border-color:var(--bl);color:#fff}.chip[aria-pressed="true"] b{color:#dbe8fd}
+.rows{display:grid;gap:10px}
+.row{background:var(--sf);border:1px solid var(--ln);border-left:5px solid var(--ln);border-radius:12px;padding:12px;display:grid;gap:7px}.row.lr{border-left-color:var(--ok)}
+.term{background:var(--tm);color:var(--tk);padding:9px 12px;border-radius:8px;cursor:pointer;overflow-x:auto;white-space:pre;font-size:13.5px}.term:hover{outline:1px solid var(--bl)}.pr{color:var(--pg)}
+.ds{font-size:.97rem}.nt{font-size:.88rem;background:var(--wnb);color:var(--wn);padding:6px 10px;border-radius:8px}
+.ok{justify-self:start;border:1px solid var(--ln);background:none;border-radius:8px;padding:4px 10px;font-size:.85rem;color:var(--mut)}.row.lr .ok{background:var(--okb);color:var(--ok);border-color:var(--ok)}
+.btn{background:var(--bl);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600}.btn.alt{background:none;color:var(--ink);border:1px solid var(--ln)}
+pre.cf{background:var(--tm);color:var(--tk);padding:14px;border-radius:10px;overflow:auto;font-size:13px;margin:6px 0 18px}
+details{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:12px 16px;margin:10px 0}summary{cursor:pointer;font-weight:700;font-size:1.05rem}details[open] summary{margin-bottom:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem;display:block;overflow-x:auto}th,td{border:1px solid var(--ln);padding:6px 10px;text-align:left}th{background:var(--bl2)}
+ul{margin:.3em 0 .8em;padding-left:1.2em}li{margin:.2em 0}
+.sub{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.qcard{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:20px;max-width:760px}.qm{color:var(--mut);font-size:.9rem;margin-bottom:6px}
+.opts{display:grid;gap:8px;margin:12px 0}.opt{text-align:left;border:1px solid var(--ln);background:none;border-radius:10px;padding:11px 14px}.opt:hover:not(:disabled){border-color:var(--bl)}.opt.right{background:var(--okb);border-color:var(--ok)}.opt.wrong{background:var(--bdb);border-color:var(--bd)}
+.good,.bad{padding:10px 12px;border-radius:10px;margin:10px 0}.good{background:var(--okb);color:var(--ok)}.bad{background:var(--bdb);color:var(--bd)}
+.inp{display:flex;gap:8px;margin:12px 0}
+.ord{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.ord .term{white-space:nowrap}.shake{animation:sk .3s}@keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.lab{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px}
+.scr{background:var(--tm);color:var(--tk);border-radius:12px;padding:14px;min-height:340px;max-height:60vh;overflow:auto;font:13.5px/1.5 'IBM Plex Mono',monospace;cursor:text;white-space:pre-wrap}
+.scr .ln{display:flex;gap:6px}.scr input{flex:1;background:none;border:0;color:var(--tk);font:inherit;outline:none;min-width:0}.err{color:#ff8a98}.dim{color:#8fa4b9}
+.ck{list-style:none;padding:0}.ck li{padding:7px 10px;border:1px solid var(--ln);border-radius:8px;margin:6px 0;background:var(--sf)}.ck li.d{background:var(--okb);border-color:var(--ok);color:var(--ok)}.ck small{display:block;color:var(--mut)}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:50}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(30px);background:var(--tm);color:#fff;padding:10px 16px;border-radius:99px;opacity:0;transition:.25s;z-index:60;pointer-events:none}#toast.on{opacity:1;transform:translateX(-50%)}
+.res{font-family:'IBM Plex Mono',monospace;background:var(--tm);color:var(--tk);padding:12px;border-radius:10px;margin-top:10px;white-space:pre-wrap;font-size:13.5px}
+@media (max-width:880px){.app{grid-template-columns:1fr}.rack{position:sticky;max-height:none;flex-direction:row;overflow-x:auto;padding:10px;gap:8px;z-index:20}.brand,.xp,.theme{display:none}.navs{flex-direction:row}.nv{white-space:nowrap}.hero,.lab{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<canvas id="cf" aria-hidden="true"></canvas><div id="toast" role="status"></div>
+<div class="app">
+<nav class="rack" aria-label="Navigation principale">
+  <div class="brand"><b>Cisco Lab Academy</b><small>Systèmes & Réseaux · M201 → M206</small></div>
+  <div class="navs" id="navs"></div>
+  <div class="xp" id="xp"></div>
+  <button class="theme" id="th" type="button">Beddel l-thème (clair / sombre)</button>
+</nav>
+<main>
+
+<section id="t-home" class="tab">
+  <div class="hero">
+    <div>
+      <h1>Kolchi mn résumé dyal cours, wlla kheddam.</h1>
+      <p>Hadchi mbni 3la résumé dyal <b>Amjoun Mouad (2023–2024)</b>. Kol module f tab mn 3ndou, kol command m3a mode dyalha w chrah b Darija, w tmarin bach tt2ekked belli fhemti.</p>
+      <div class="ring"><svg viewBox="0 0 84 84" aria-hidden="true"><circle class="bg" cx="42" cy="42" r="34"/><circle class="fg" id="rg" cx="42" cy="42" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"/></svg><div id="rgt"></div></div>
+    </div>
+    <svg class="topo" viewBox="0 0 600 300" role="img" aria-label="Topologie réseau animée: routeur, deux switchs, quatre PC">
+      <g class="ln"><path class="ln" d="M300 40V90M300 120L150 170M300 120L450 170M150 200L80 250M150 200L220 250M450 200L380 250M450 200L520 250"/></g>
+      <g class="nd"><circle cx="300" cy="22" r="20"/><rect x="262" y="90" width="76" height="32" rx="10"/><rect x="112" y="170" width="76" height="30" rx="8"/><rect x="412" y="170" width="76" height="30" rx="8"/>
+      <rect x="52" y="250" width="56" height="30" rx="6"/><rect x="192" y="250" width="56" height="30" rx="6"/><rect x="352" y="250" width="56" height="30" rx="6"/><rect x="492" y="250" width="56" height="30" rx="6"/></g>
+      <text x="300" y="26">ISP</text><text x="300" y="111">R1</text><text x="150" y="190">S1</text><text x="450" y="190">S2</text>
+      <text x="80" y="270">PC-A</text><text x="220" y="270">PC-B</text><text x="380" y="270">PC-C</text><text x="520" y="270">PC-D</text>
+      <circle class="pk" r="5"><animateMotion dur="3.2s" repeatCount="indefinite" path="M300 40V90L150 170L80 250"/></circle>
+      <circle class="pk" r="5"><animateMotion dur="3.8s" begin="1s" repeatCount="indefinite" path="M520 250L450 200L300 120L300 40"/></circle>
+      <circle class="pk" r="5"><animateMotion dur="2.6s" begin=".5s" repeatCount="indefinite" path="M220 250L150 200L300 120L450 170L380 250"/></circle>
+    </svg>
+  </div>
+  <div class="grid" id="mods"></div>
+</section>
+
+<section id="t-m201" class="tab" hidden><h2>M201 · Infrastructure réseau (Cisco CLI)</h2><p class="dim">Click 3la command bach t-copiha. Dir ✓ melli t7fedha. Ay ⚠ = correction dyal PDF.</p><div id="c-m201"></div></section>
+<section id="t-m202" class="tab" hidden><h2>M202 · Environnement Windows Server 2019</h2><div id="c-m202"></div></section>
+<section id="t-m203" class="tab" hidden><h2>M203 · Environnement Linux</h2><div id="c-m203"></div></section>
+<section id="t-cours" class="tab" hidden><h2>Cours & théorie (M201 → M206)</h2><div id="theory"></div></section>
+
+<section id="t-outils" class="tab" hidden>
+  <h2>Outils</h2>
+  <div class="qcard" style="max-width:none"><h3>Calculateur subnet</h3><div class="inp"><input class="search" id="sn" value="192.168.10.77/26" aria-label="IP/CIDR"><button class="btn" id="snb">7seb</button></div><div class="res" id="snr"></div></div>
+  <div class="qcard" style="max-width:none;margin-top:14px"><h3>Générateur EUI-64 (IPv6)</h3><div class="inp"><input class="search" id="mc" value="00:1A:2B:3C:4D:5E" aria-label="MAC"><input class="search" id="pf" value="2001:db8:1234:5678" aria-label="Préfixe /64"><button class="btn" id="mcb">7seb</button></div><div class="res" id="mcr"></div></div>
+  <div id="ref"></div>
+</section>
+
+<section id="t-exo" class="tab" hidden>
+  <h2>Exercices</h2><div class="sub" id="exsub"></div><div id="exbody"></div>
+</section>
+
+<section id="t-lab" class="tab" hidden>
+  <h2>Lab CLI — terminal simulé</h2>
+  <p>Kteb l-commands b yeddek f terminal. Les modes (<code>R&gt;</code>, <code>R#</code>, <code>(config)#</code>…) kay-tbeddlo b7al l-vrai. Kteb <code>enable</code> w <code>conf t</code> bach tbda.</p>
+  <div class="sub" id="labsel"></div>
+  <div class="lab"><div class="scr" id="scr" aria-label="Terminal"></div><div><div class="tools"><button class="btn alt" id="hint">💡 Hint</button><button class="btn alt" id="rst">↺ Reset</button></div><ul class="ck" id="ck"></ul></div></div>
+</section>
+
+</main></div>
+
+<script>
+/* ======================= DONNÉES ======================= */
+const MODES={U:'>',P:'#',G:'(config)#',I:'(config-if)#',IR:'(config-if-range)#',L:'(config-line)#',R:'(config-router)#',D:'(dhcp-config)#',V:'(config-vlan)#',S:'(config-subif)#',STD:'(config-std-nacl)#',EXT:'(config-ext-nacl)#',V6A:'(config-ipv6-acl)#',DH6:'(config-dhcpv6)#',ISA:'(config-isakmp)#',CM:'(config-crypto-map)#',TEL:'(config-telephony)#',DN:'(config-ephone-dn)#',EPH:'(config-ephone)#',RTR:'(config-rtr)#',BBA:'(config-bba-group)#'};
+const SHELL={PS:'PS C:\\>',CMD:'C:\\>',PC:'C:\\>',SH:'[root@srv1 ~]#'};
+const RAW=String.raw`
+##base~🛠 Base~m201~Router
+U~enable~Dkhol l Privileged EXEC (R#)
+P~configure terminal~Dkhol l Global Config (conf t)
+G~hostname R1~Beddel smiyt l-jihaz
+G~enable password cisco1234~Password dyal privileged (clair f config)~Khtar enable secret b blasto
+G~enable secret cisco1234~Password m3ssser (MD5), kheddam 3la enable password
+G~service password-encryption~Kay3ammer (type 7) l passwords l-clairs f config~Machi qwi, ghir kay5bbi
+G~banner motd #Acces interdit#~Message dyal d5ol (# = délimiteur)
+G~no ip domain-lookup~Mat3awdch tqleb 3la DNS melli tktb command ghalat
+G~line console 0~Dkhol l config dyal console
+L~password cisco1234~Password dyal l-line
+L~login~Talab password 3la had l-line
+L~logging synchronous~Messages dyal IOS maykatt3ouch l-ktiba dyalek
+L~exec-timeout 5 0~Déconnexion mn ba3d 5 min d inactivité
+G~line vty 0 4~Config dyal l-accès à distance (Switch: 0 15)
+G~interface g0/0~Dkhol l config dyal interface
+I~description LAN-ISTA~Wasf l interface
+I~ip address 192.168.0.1 255.255.255.0~3ti IPv4 l interface
+I~no shutdown~Chghl l interface (administrativement)
+I~exit~Rjje3 mode wa7ed
+G~end~Rjje3 direct l R# (Ctrl+Z)
+P~copy running-config startup-config~Sauvegarde config (RAM → NVRAM)
+P~show running-config~Config li khddama db (RAM)
+P~show startup-config~Config msauvegardya (NVRAM)~PDF kayqol "afficher la RAM": ghalta, startup-config = NVRAM
+P~show version~Version IOS, uptime, RAM
+P~show ip interface brief~Résumé IP + état dyal ga3 les interfaces
+P~show ip interface~Détails IP dyal interface (ACL, helper…)
+P~show interfaces~Statistiques complètes dyal interfaces
+P~show clock~Taa9 dyal l-jihaz
+P~erase startup-config~Msse7 config msauvegardya (reset)
+P~reload~Redémarrer l-jihaz
+P~ping 192.168.0.2~Test connectivité ICMP
+P~traceroute 192.168.0.2~Chouf routers li fl tari9
+##sw~🔌 Switch & Port-security~m201~Switch
+G~mac address-table static 0000.1111.2222 vlan 1 interface f0/1~MAC statique f table~PDF kteb syntaxe ghalta ("MAC pc1 vlan1 in f2/1")
+P~show mac address-table~Table dyal les MAC
+G~interface range f0/1 - 24~Config plusieurs ports f nafs l-wa9t
+I~switchport mode access~Port access (PC / imprimante)
+I~switchport port-security~Activer port-security (mn ba3d mode access)
+I~switchport port-security maximum 2~Max dyal MAC 3la port
+I~switchport port-security mac-address sticky~Y-t3allem MAC otomatiquement~PDF kteb "macaddress sticky [mac]": sticky bla MAC, wla "mac-address <MAC>" bach t7ddha
+I~switchport port-security violation shutdown~Action melli violation (shutdown / restrict / protect)
+P~show port-security~Résumé port-security
+P~show port-security interface f0/1~Détails dyal port
+I~shutdown~Err-disabled? dir shutdown ba3d no shutdown
+G~interface vlan 1~SVI dyal gestion
+I~ip address 192.168.0.2 255.255.255.0~IP dyal gestion dyal switch
+G~ip default-gateway 192.168.0.1~Gateway dyal switch L2
+##vlan~🏷 VLAN, Trunk, DTP, VTP~m201~Switch
+G~vlan 2~Créer VLAN 2
+V~name ista~Smiyt VLAN
+I~switchport access vlan 2~Dkhkhel port f VLAN 2 (b mode access)
+P~show vlan brief~Les VLANs + ports~PDF: show vlan
+G~no vlan 2~Msse7 VLAN
+I~switchport mode trunk~Port trunk
+I~switchport trunk encapsulation dot1q~Darouri f ba3d switchs (switchs L3 / ba3d models)
+I~switchport trunk native vlan 99~Native VLAN (untagged)
+I~switchport trunk allowed vlan 2,10,20~VLANs msmou7 f trunk
+P~show interfaces trunk~Chouf trunks + VLANs
+I~switchport mode dynamic desirable~DTP: kay7awel y-négocia trunk
+I~switchport mode dynamic auto~DTP: kay-tsenna l-wa7ed lakhor
+I~switchport nonegotiate~Wa9ef DTP
+P~show dtp interface f0/1~Chouf DTP dyal port
+G~vtp mode server~Modes: server / client / transparent
+G~vtp domain ISTA~Smiyt domaine VTP
+G~vtp password cisco~Password VTP
+G~vtp version 2~Version VTP
+G~vtp pruning~Mat-sifetch VLANs li ma-chi mkhdoumin
+P~show vtp status~État VTP
+P~show vtp counters~Compteurs VTP
+##roas~🔀 Inter-VLAN (Router-on-a-stick)~m201~Router
+G~interface f0/0~Interface physique (no shutdown d'abord)
+I~no shutdown~Chghl interface mère
+G~interface f0/0.2~Sous-interface dyal VLAN 2
+S~encapsulation dot1q 2~Tag dot1q VLAN 2 (native: "dot1q 99 native")
+S~ip address 192.168.2.1 255.255.255.0~Gateway dyal VLAN 2
+P~show ip route~Vérifier réseaux connectés
+##l3~🧱 Switch niveau 3~m201~Switch
+G~ip routing~Activer routage f switch L3
+G~interface f0/1~Port li ghadi ykoun routé
+I~no switchport~7awwel port L2 → L3
+I~ip address 192.168.0.1 255.255.255.0~IP 3la port routé~PDF kteb ip address bla mask
+G~interface vlan 2~SVI = gateway dyal VLAN 2
+I~ip address 192.168.2.1 255.255.255.0~IP dyal SVI
+I~no shutdown~Chghl SVI
+##stp~🌳 Spanning-Tree~m201~Switch
+G~spanning-tree mode rapid-pvst~Rapid-PVST+ (802.1w par VLAN)
+G~spanning-tree vlan 1 root primary~Dir had switch Root Bridge
+G~spanning-tree vlan 1 root secondary~Root de secours
+G~spanning-tree vlan 1 priority 4096~Priorité manuelle (multiple de 4096)
+I~spanning-tree portfast~Port edge (PC): direct l forwarding~PDF kteb "port fast" (b l-fas)
+I~spanning-tree bpduguard enable~Shutdown port ila jaat BPDU
+G~spanning-tree portfast default~Portfast 3la ga3 les ports access
+G~spanning-tree portfast bpduguard default~BPDU guard 3la ports portfast
+P~show spanning-tree~Résumé STP
+P~show spanning-tree detail~Détails STP
+P~show spanning-tree active~Ghir ports actifs
+P~show spanning-tree vlan 1~STP dyal VLAN 1
+##ech~🧵 EtherChannel~m201~Switch
+G~interface range f0/1 - 4~Sélectionner ports li ghadi y-tjem3o
+IR~channel-group 1 mode on~Statique (bla protocole)
+IR~channel-group 1 mode desirable~PAgP actif (Cisco)
+IR~channel-group 1 mode auto~PAgP passif
+IR~channel-group 1 mode active~LACP actif (standard)
+IR~channel-group 1 mode passive~LACP passif
+G~interface port-channel 1~Interface logique
+I~switchport mode trunk~Trunk 3la port-channel
+P~show etherchannel summary~Résumé (SU = bon, SD = down)
+G~port-channel load-balance src-dst-ip~Méthode dyal répartition
+##fhrp~🛡 FHRP (HSRP / VRRP / GLBP)~m201~Router
+I~standby 10 ip 192.168.0.254~HSRP: IP virtuelle (groupe 10)~PDF kteb "stand by" b l-fas: la, kelma wa7da
+I~standby 10 priority 150~Priorité (default 100, l-3ali ykoun Active)
+I~standby 10 preempt~Y-rjje3 Active melli y-rjja3
+I~standby version 2~HSRP v2
+P~show standby brief~État HSRP
+I~glbp 10 ip 192.168.0.254~GLBP: IP virtuelle~PDF dar commands dyal "standby" f GLBP: ghalta, GLBP kaykhdem b "glbp"
+I~glbp 10 priority 150~Priorité GLBP
+I~glbp 10 preempt~Preempt GLBP
+I~glbp 10 load-balancing round-robin~Load balancing round-robin
+P~show glbp brief~État GLBP
+I~vrrp 10 ip 192.168.0.254~VRRP (standard IETF)
+I~vrrp 10 priority 150~Priorité VRRP
+P~show vrrp brief~État VRRP
+##static~🧭 Routage statique~m201~Router
+G~ip route 192.168.0.0 255.255.255.0 192.168.1.1~Route statique (réseau, mask, next-hop)
+G~ip route 192.168.0.0 255.255.255.0 192.168.1.1 70~Distance administrative flottante (backup)
+G~ip route 0.0.0.0 0.0.0.0 192.168.1.1~Route par défaut
+G~ip route 192.168.0.0 255.255.255.0 s0/0/0~Route b interface de sortie
+P~show ip route~Table de routage
+P~show ip route static~Ghir les routes statiques
+P~show ip protocols~Protocoles de routage actifs
+##rip~📡 RIP~m201~Router
+G~router rip~Activer RIP
+R~version 2~RIP v2 (classless)
+R~network 192.168.0.0~Réseau (classful) li ghadi y-tannonça
+R~no auto-summary~Wa9ef résumé automatique
+R~passive-interface g0/0~Mat-sifetch updates mn had interface
+R~distance 70~Beddel AD dyal RIP~PDF: "destance"
+R~default-information originate~Propager route par défaut
+P~show ip rip database~Base RIP
+##ospf~🌐 OSPF~m201~Router
+G~router ospf 10~Activer OSPF (process id local)
+R~router-id 1.1.1.1~Router ID (khssou y-koun unique)
+R~network 192.168.0.0 0.0.0.255 area 0~Annoncer réseau (wildcard!) f area 0
+R~passive-interface s2/0~Ma-ydirch voisins 3la had interface
+R~default-information originate~Propager route par défaut
+R~auto-cost reference-bandwidth 1000~Bande passante de référence (Mbps)
+I~ip ospf priority 50~Priorité DR/BDR (0 = jamais DR)
+I~ip ospf cost 156~Coût manuel
+I~bandwidth 64~Bande passante (kbps) dyal interface
+I~ip ospf hello-interval 5~Hello timer
+I~ip ospf dead-interval 20~Dead timer (khss y-koun = 4 × hello)
+I~ip ospf 10 area 0~Activer OSPF direct 3la interface (alternative l network)
+G~interface loopback 0~Loopback (interface virtuelle, dima up)
+P~show ip ospf neighbor~Voisins OSPF
+P~show ip ospf interface brief~Interfaces OSPF
+P~show ip ospf database~LSDB
+P~clear ip ospf process~Reset OSPF
+##eigrp~⚡ EIGRP~m201~Router
+G~router eigrp 10~Activer EIGRP (AS 10)
+R~eigrp router-id 1.1.1.1~Router ID~PDF kteb-ha f global: khssha dakhl router eigrp
+R~network 192.168.0.0 0.0.0.255~Réseau + wildcard
+R~no auto-summary~Wa9ef résumé auto
+P~show ip eigrp neighbors~Voisins EIGRP
+P~show ip eigrp topology~Table topologie (DUAL)
+##bgp~🌍 BGP~m201~Router
+G~router bgp 6500~Activer BGP (AS 6500)
+R~neighbor 192.168.1.1 remote-as 6501~Voisin eBGP (AS different)~PDF khlat bin 2 routers
+R~network 192.168.0.0 mask 255.255.255.0~Annoncer réseau
+P~show ip bgp~Table BGP
+P~show ip bgp summary~Résumé voisins BGP
+##acl~🚧 ACL~m201~Router
+G~access-list 1 deny 192.168.2.0 0.0.0.255~ACL standard numérotée: bloquer réseau (source)
+G~access-list 1 permit host 192.168.3.3~Autoriser hôte~PDF nsa "permit"
+G~access-list 1 permit any~Autoriser le reste (sinon deny implicite)
+I~ip access-group 1 in~Appliquer ACL (in / out) 3la interface
+P~show access-lists~Chouf ACLs + compteurs
+G~ip access-list standard ista~ACL standard nommée
+STD~deny host 192.168.0.2~Bloquer hôte
+STD~permit any~Autoriser reste
+G~access-list 100 deny tcp 192.168.3.0 0.0.0.255 host 192.168.0.4 eq 80~Étendue: bloquer HTTP vers serveur
+G~access-list 100 deny tcp 192.168.2.0 0.0.0.255 host 192.168.0.4 eq 443~Étendue: bloquer HTTPS~PDF kteb UDP 443: ghalta, HTTPS = TCP
+G~access-list 100 permit ip any any~Autoriser reste
+I~ip access-group 100 in~Appliquer ACL étendue
+G~ip access-list extended ista~ACL étendue nommée
+EXT~deny tcp host 192.168.7.3 host 192.168.2.1 eq 80~Règle étendue~PDF: 192.1687.0.3 (faute)
+EXT~permit ip any any~Autoriser reste
+G~access-list 101 deny icmp host 192.168.0.2 host 192.168.0.3 echo~Interdire ping (echo / echo-reply)
+L~access-class 1 in~Appliquer ACL 3la VTY (machi access-group)
+G~no access-list 1~Msse7 ACL kamla
+##nat~🔁 NAT / PAT~m201~Router
+G~ip nat pool ista 41.41.41.1 41.41.41.30 netmask 255.255.255.0~Pool d'adresses publiques~PDF: 41.41.41.41.1 (faute)
+G~access-list 1 permit 192.168.0.0 0.0.0.255~Qui ykhdem NAT (réseau privé)
+G~ip nat inside source list 1 pool ista~NAT dynamique
+G~ip nat inside source list 1 interface s2/0 overload~PAT (NAT overload) b IP dyal interface
+G~ip nat inside source list 1 pool ista overload~NAT + PAT
+G~ip nat inside source static 192.168.0.2 31.31.31.1~NAT statique (1 ↔ 1)
+I~ip nat inside~Interface interne
+I~ip nat outside~Interface externe
+P~show ip nat translations~Traductions actives
+P~show ip nat statistics~Stats NAT
+P~clear ip nat translation *~Msse7 traductions
+##dhcp~📬 DHCP (IPv4)~m201~Router
+G~ip dhcp excluded-address 192.168.0.1 192.168.0.10~Exclure adresses (dir f 1er)
+G~ip dhcp pool ISTA~Créer pool DHCP
+D~network 192.168.0.0 255.255.255.0~Réseau du pool
+D~default-router 192.168.0.1~Gateway~PDF kteb 192.168.0.0 (adresse réseau): ghalta
+D~dns-server 217.17.17.1~Serveur DNS
+D~domain-name ISTA.MA~Nom de domaine
+D~lease 7~Durée du bail (jours)
+I~ip helper-address 192.168.2.1~Relais DHCP (IP dyal serveur) 3la interface dyal clients
+I~ip address dhcp~Router yakhod IP mn DHCP
+P~show ip dhcp binding~Baux actifs
+P~show ip dhcp pool~Stats du pool
+##ssh~🔐 SSH & Telnet~m201~Router
+G~username ISTA secret cisco1234~Compte local (secret > password)
+G~ip domain-name ista.ma~Domaine (darouri l SSH)
+G~crypto key generate rsa modulus 1024~Générer clés RSA (1024+ bit)
+G~ip ssh version 2~SSH v2
+L~login local~Auth b comptes locaux
+L~transport input ssh~Ghir SSH 3la VTY
+L~transport input telnet~Telnet ghir (clair, machi sécurisé)
+P~show ip ssh~Infos SSH
+P~show users~Sessions actives
+P~ssh -l ISTA 192.168.0.1~Client SSH mn router
+P~telnet 192.168.0.1~Client Telnet
+##mgmt~🧰 NTP, Syslog, SNMP~m201~Router
+G~ntp master 1~Router = serveur NTP (stratum 1)
+G~ntp server 192.168.0.1~Synchroniser m3a serveur
+P~clock set 13:00:01 5 March 2023~Dbt l-wa9t manuellement
+P~show clock detail~Wa9t + source
+P~show ntp associations~Associations NTP
+P~show ntp status~État NTP
+G~service timestamps log datetime msec~Timestamp f logs~PDF: "service time tamps"
+G~logging host 192.168.0.5~Serveur Syslog
+G~logging trap debugging~Niveau (0 emergencies → 7 debugging)
+G~logging buffered 8192~Logs f RAM
+P~show logging~Chouf logs
+G~snmp-server community ISTA ro~Community lecture seule
+G~snmp-server community ISTA-RW rw~Community lecture/écriture
+G~snmp-server host 192.168.0.5 version 2c ISTA~Destination des traps
+P~show snmp~Stats SNMP
+##disc~🔭 CDP & LLDP~m201~Router
+G~cdp run~Activer CDP (Cisco)
+G~no cdp run~Désactiver CDP
+I~cdp enable~Activer CDP 3la interface
+I~no cdp enable~Désactiver CDP 3la interface
+P~show cdp neighbors~Voisins CDP
+P~show cdp neighbors detail~Détails (IP, IOS…)~PDF: "reighdrs" (faute)
+G~lldp run~Activer LLDP (standard)
+I~lldp transmit~Envoyer LLDP
+I~lldp receive~Recevoir LLDP
+P~show lldp neighbors~Voisins LLDP
+##ipv6~🔢 IPv6~m201~Router
+G~ipv6 unicast-routing~Activer routage IPv6
+I~ipv6 address 2001:A:A::1/64~Global unicast
+I~ipv6 address FE80::1 link-local~Link-local manuelle
+I~ipv6 address 2001:A:A::/64 eui-64~Adresse b EUI-64
+I~ipv6 address autoconfig~SLAAC
+G~ipv6 route ::/0 2001:A:B::2~Route par défaut IPv6
+G~ipv6 route 2001:A:C::/64 2001:A:B::2~Route statique IPv6~PDF nsa "/64" f réseau
+P~show ipv6 route~Table IPv6
+P~show ipv6 interface brief~Résumé interfaces IPv6
+P~show ipv6 interface g0/0~Détails (flags ND…)
+P~show ipv6 neighbors~Table ND (b7al ARP)
+P~ping 2001:A:C::1~Ping IPv6
+G~ipv6 router rip ISTA~Créer process RIPng~PDF nsat had l-ligne
+I~ipv6 rip ISTA enable~Activer RIPng 3la interface
+I~ipv6 rip ISTA default-information originate~Propager default
+G~ipv6 router ospf 10~OSPFv3
+RTR~router-id 1.1.1.1~Router ID (32 bit IPv4)
+I~ipv6 ospf 10 area 0~OSPFv3 3la interface
+G~ipv6 access-list ISTA~ACL IPv6
+V6A~deny tcp 2001:A:A::/64 host 2001:A:C::4 eq 80~Bloquer HTTP
+V6A~permit ipv6 any any~Autoriser reste
+I~ipv6 traffic-filter ISTA in~Appliquer ACL IPv6~PDF: "trafic filter"
+P~show ipv6 access-list~Chouf ACL IPv6
+##v6dhcp~📨 DHCPv6 / SLAAC~m201~Router
+G~ipv6 dhcp pool ista~Créer pool DHCPv6
+DH6~domain-name ista.ma~Domaine (stateless / stateful)
+DH6~dns-server 2001:A:A::10~DNS
+DH6~address prefix 2001:A:B::/64 lifetime infinite~Stateful: prefix li y-3ti mno adresses
+I~ipv6 dhcp server ista~Lier pool l interface
+I~ipv6 nd other-config-flag~Stateless: adresse SLAAC + infos DHCPv6
+I~ipv6 nd managed-config-flag~Stateful: adresse + infos mn DHCPv6
+P~show ipv6 dhcp pool~Pool + clients actifs
+P~show ipv6 dhcp binding~Adresses li t3tat (Stateful)
+P~debug ipv6 dhcp detail~SOLICIT / ADVERTISE / REQUEST / REPLY
+P~undebug all~Wa9ef debug (u all)
+PC~ipconfig /release6~PC: 7errer config IPv6
+PC~ipconfig /renew6~PC: tlb config IPv6 jdida
+PC~ipconfig /all~PC: afficher config
+##wan~🚇 WAN: PPP, CHAP, PPPoE~m201~Router
+I~encapsulation ppp~PPP f serial (default = HDLC)
+I~encapsulation hdlc~HDLC Cisco
+I~clock rate 64000~Ghir 3la DCE
+P~show controllers s0/0/0~Chouf DTE wla DCE
+G~username R2 password cisco2~Compte dyal voisin (smiya = hostname dyalou)
+I~ppp authentication pap~PAP (mot de passe f clair)
+I~ppp pap sent-username R1 password cisco1~Wach nsifto f PAP
+I~ppp authentication chap~CHAP (hash, a7sen)
+P~show interface s2/0~Vérifier encapsulation + LCP
+G~bba-group pppoe OFPPT~Serveur PPPoE: groupe BBA~PDF mkhelta: version approximative (l-syntaxe tkhtalef 3la IOS)
+BBA~virtual-template 1~Template li ghadi y-stakhdm
+G~interface virtual-template 1~Template dyal l-clients
+I~ip unnumbered f0/0~Template ykhdem b IP dyal f0/0
+I~peer default ip address pool ISTA~IP clients mn pool
+G~ip local pool ISTA 10.1.1.10 10.1.1.20~Pool d'adresses clients
+I~pppoe enable group OFPPT~Activer PPPoE 3la interface serveur
+I~pppoe enable~Client: PPPoE 3la interface
+I~pppoe-client dial-pool-number 1~Client: rbt m3a Dialer 1
+G~interface dialer 1~Client: interface dialer
+I~ip address negotiated~Client: IP mn serveur
+I~dialer pool 1~Client: pool
+##vpn~🔒 VPN, IPsec, GRE~m201~Router
+G~crypto isakmp policy 10~Phase 1 (IKE)
+ISA~encryption aes~Algo de chiffrement (aes / 3des)~PDF: "encryption" bla algo
+ISA~hash sha~Hash
+ISA~authentication pre-share~Clé partagée
+ISA~group 2~Diffie-Hellman groupe 2
+G~crypto isakmp key cisco address 192.168.2.2~Clé + IP dyal peer
+G~crypto ipsec transform-set ista esp-aes esp-sha-hmac~Phase 2: chiffrement + intégrité~PDF: esp-des esp-md5 (dépassés)
+G~crypto map IPSECMAP 10 ipsec-isakmp~Crypto map
+CM~set peer 192.168.2.2~Peer
+CM~set transform-set ista~Lier transform-set
+CM~match address 110~ACL li t-défini trafic VPN
+G~access-list 110 permit ip 192.168.3.0 0.0.0.255 192.168.1.0 0.0.0.255~Trafic intéressant~PDF: ACL 101 w map "vpnmap" ma-m3ahoumch (khlat)
+I~crypto map IPSECMAP~Appliquer crypto map 3la interface
+P~show crypto isakmp sa~État phase 1
+P~show crypto ipsec sa~État phase 2
+G~interface tunnel 0~GRE: créer tunnel
+I~tunnel mode gre ip~Mode GRE
+I~ip address 192.168.4.1 255.255.255.0~IP dyal tunnel
+I~tunnel source s2/0~Source tunnel
+I~tunnel destination 192.168.2.2~Destination tunnel
+P~show interface tunnel 0~État tunnel
+##voip~☎ VoIP (CME)~m201~Router
+G~ip dhcp pool VOICE~Pool DHCP l phones
+D~option 150 ip 192.168.0.2~TFTP / CME li ghadi t-télécharger config
+I~switchport voice vlan 20~Voice VLAN 3la port dyal switch~PDF: access vlan 20
+G~telephony-service~Activer CME
+TEL~max-ephones 10~Max phones
+TEL~max-dn 10~Max numéros
+TEL~ip source-address 192.168.0.2 port 2000~IP + port SCCP
+TEL~auto assign 1 to 10~Auto-assign DN
+TEL~create cnf-files~Créer fichiers config phones
+G~ephone-dn 1~Créer ligne 1
+DN~number 1001~Numéro dyal ligne
+G~ephone 1~Config phone b MAC
+EPH~mac-address 0001.4321.ABCD~MAC dyal phone
+EPH~button 1:1~Button 1 → DN 1
+G~dial-peer voice 1 voip~Routage d'appels vers router akhor
+G~destination-pattern 2...~Numéros li y-bdaw b 2
+G~session target ipv4:10.0.0.2~IP dyal router distant
+##w_base~🪟 Base serveur~m202~Windows
+PS~Rename-Computer -NewName "SRV1" -Restart~Beddel smiyt l-serveur
+PS~Restart-Computer~Redémarrer
+PS~Stop-Computer~Éteindre
+PS~Get-NetIPInterface~Chouf interfaces + InterfaceIndex
+PS~New-NetIPAddress -InterfaceIndex 12 -IPAddress 172.16.0.200 -PrefixLength 24 -DefaultGateway 172.16.0.1~IP statique~PDF: "-IPAdress" (faute)
+PS~Set-DnsClientServerAddresses -InterfaceIndex 12 -ServerAddresses 172.16.0.10,172.16.0.11~DNS dyal carte réseau
+PS~Add-Computer -DomainName Adatum.com -Restart~Rbet serveur m3a domaine
+PS~Get-WindowsFeature -Name *GUI* | Install-WindowsFeature -IncludeAllSubFeature -IncludeManagementTools -Restart~Core → installation complète
+PS~Get-WindowsFeature -Name *GUI* | Uninstall-WindowsFeature -Restart~Complète → Core
+PS~Get-WindowsFeature~Rôles / fonctionnalités
+PS~Test-Connection 172.16.0.1~Ping PowerShell
+CMD~ipconfig /all~Config IP complète
+##w_dns~🌐 DNS~m202~Windows
+PS~Install-WindowsFeature DNS -IncludeManagementTools~Installer rôle DNS
+PS~Add-DnsServerPrimaryZone -Name "ntic.ma" -ZoneFile "ntic.ma.dns"~Zone directe primaire
+PS~Add-DnsServerPrimaryZone -NetworkID 192.168.10.0/24 -ZoneFile "10.168.192.in-addr.arpa.dns"~Zone inverse primaire
+PS~Add-DnsServerSecondaryZone -Name "ntic.ma" -ZoneFile "ntic.ma.dns" -MasterServers 192.168.10.1~Zone directe secondaire
+PS~Add-DnsServerSecondaryZone -NetworkID 192.168.10.0/24 -ZoneFile "10.168.192.in-addr.arpa.dns" -MasterServers 192.168.10.1~Zone inverse secondaire
+PS~Set-DnsServerPrimaryZone ntic.ma -SecureSecondaries TransferAnyServer -Notify Notify~Transfert de zone + notification
+PS~Add-DnsServerResourceRecord -ZoneName ntic.ma -NS -Name "." -NameServer srv1.ntic.ma~Enregistrement NS
+PS~Add-DnsServerResourceRecord -ZoneName ntic.ma -A -Name srv1 -IPv4Address 192.168.10.1~Enregistrement A
+PS~Add-DnsServerResourceRecord -ZoneName ntic.ma -AAAA -Name srv1 -IPv6Address 2001:db8::1~Enregistrement AAAA
+PS~Add-DnsServerResourceRecord -ZoneName ntic.ma -CNAME -Name www -HostNameAlias srv1.ntic.ma~Alias CNAME
+PS~Add-DnsServerResourceRecord -ZoneName ntic.ma -MX -Name "." -MailExchange mail.ntic.ma -Preference 10~Enregistrement MX
+PS~Add-DnsServerResourceRecord -ZoneName 10.168.192.in-addr.arpa -PTR -Name 1 -PtrDomainName srv1.ntic.ma~Enregistrement PTR
+PS~Add-DnsServerForwarder -IPAddress 8.8.8.8 -PassThru~Redirecteur (forwarder)
+PS~Get-DnsServer~Config DNS
+PS~Get-DnsServerZone~Liste zones
+PS~Show-DnsServerCache~Cache serveur~PDF: Get-dnsservercache (smiya machi mzyana)
+PS~Get-DnsClientCache~Cache client
+PS~Clear-DnsClientCache~Vider cache client
+PS~Clear-DnsServerCache~Vider cache serveur
+PS~Register-DnsClient~Mise à jour dynamique (= ipconfig /registerdns)
+CMD~ipconfig /registerdns~Réinscrire client f DNS
+CMD~ipconfig /displaydns~Afficher cache
+PS~Export-DnsServerZone -Name "ntic.ma" -FileName "ntic.ma.bak"~Exporter zone
+CMD~nslookup srv1.ntic.ma~Dépanner résolution
+##w_dhcp~📬 DHCP~m202~Windows
+PS~Install-WindowsFeature DHCP -IncludeManagementTools~Installer rôle DHCP
+PS~Add-DhcpServerInDC -DnsName srv1.ntic.ma -IPAddress 192.168.10.1~Autoriser DHCP f AD
+PS~Add-DhcpServerv4Scope -Name "LAN" -StartRange 192.168.10.30 -EndRange 192.168.10.100 -SubnetMask 255.255.255.0~Créer étendue
+PS~Add-DhcpServerv4ExclusionRange -ScopeId 192.168.10.0 -StartRange 192.168.10.30 -EndRange 192.168.10.40~Exclure plage
+PS~Set-DhcpServerv4OptionValue -ScopeId 192.168.10.0 -Router 192.168.10.1 -DnsServer 192.168.10.1~Options gateway + DNS
+PS~Set-DhcpServerv4OptionValue -OptionId 3 -Value 192.168.10.1 -ScopeId 192.168.10.0~Option 3 = routeur (6 = DNS)
+PS~Set-DhcpServerv4Scope -ScopeId 192.168.10.0 -LeaseDuration 1.00:00:00~Durée du bail (1 jour)
+PS~Add-DhcpServerv4Reservation -ScopeId 192.168.10.0 -IPAddress 192.168.10.50 -ClientId "00-1A-2B-3C-4D-5E" -Description "PC Direction"~Réservation (MAC → IP)
+PS~Get-DhcpServerv4Scope~Chouf étendues
+PS~Get-DhcpServerv4Lease -ScopeId 192.168.10.0~Baux actifs
+PS~Restart-Service dhcpserver~Redémarrer service
+CMD~ipconfig /release~Client: 7errer IP
+CMD~ipconfig /renew~Client: tjdid IP
+##w_ad~🏛 AD DS~m202~Windows
+PS~Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools~Rôle AD DS
+PS~Get-WindowsFeature AD-Domain-Services~Vérifier installation
+PS~Import-Module ADDSDeployment~Module dyal déploiement
+PS~Install-ADDSForest -DomainName ntic.ma~Nouvelle forêt (mot de passe DSRM + reboot)
+PS~Get-ADDomain~Infos domaine
+PS~Get-ADForest~Infos forêt
+PS~Get-ADDomainController~Liste DC
+PS~netdom query fsmo~Chouf 5 rôles FSMO
+PS~Move-ADDirectoryServerOperationMasterRole -Identity DC2 -OperationMasterRole PDCEmulator~Transférer rôle FSMO
+##w_obj~👥 OU, Users, Groupes~m202~Windows
+PS~New-ADOrganizationalUnit -Name TRI -Path "dc=ntic,dc=ma"~Créer OU
+PS~New-ADOrganizationalUnit -Name TP -Path "ou=TRI,dc=ntic,dc=ma"~OU f OU
+PS~Set-ADOrganizationalUnit -Identity "ou=TRI,dc=ntic,dc=ma" -ProtectedFromAccidentalDeletion $false~Enlever protection
+PS~Remove-ADOrganizationalUnit "ou=TRI,dc=ntic,dc=ma" -Recursive~Supprimer OU
+PS~Get-ADOrganizationalUnit -Filter *~Lister OU
+PS~New-ADUser -Name "Ziti Ilham" -SamAccountName iziti -UserPrincipalName iziti@ntic.ma -Path "ou=tri,dc=ntic,dc=ma" -AccountPassword (Read-Host -AsSecureString "Mot de passe") -Enabled $true -ChangePasswordAtLogon $true~Créer utilisateur
+PS~Enable-ADAccount -Identity iziti~Activer compte
+PS~Disable-ADAccount -Identity iziti~Désactiver compte
+PS~Unlock-ADAccount -Identity iziti~Déverrouiller
+PS~Set-ADAccountPassword -Identity iziti -Reset~Reset password
+PS~Remove-ADUser iziti~Supprimer user
+PS~Get-ADUser -Filter * -SearchBase "ou=tri,dc=ntic,dc=ma"~Chercher users
+PS~Get-ADUser iziti -Properties *~Toutes les propriétés
+PS~New-ADUser -Name "Test" -ProfilePath \\AD1\Profiles\test -HomeDirectory \\AD1\Home\test -HomeDrive H:~Profil itinérant + dossier perso~PDF: HomeDirectory C:\ (khssou UNC)
+PS~New-ADGroup -Name "Stagiaire" -Path "ou=tri,dc=ntic,dc=ma" -GroupCategory Security -GroupScope Global~Créer groupe
+PS~Add-ADGroupMember -Identity "Stagiaire" -Members iziti~Zid user l groupe
+PS~Add-ADGroupMember -Identity "Stagiaire" -Members StageOujda,StageRabat~Zid groupes l groupe
+PS~Get-ADGroupMember Stagiaire~Membres du groupe
+PS~Set-ADGroup -Identity "cn=stagiaire,ou=tri,dc=ntic,dc=ma" -GroupCategory Distribution~Beddel type
+PS~Remove-ADGroup Stagiaire~Supprimer groupe
+PS~New-ADComputer -Name PC1 -SamAccountName PC1 -Path "OU=tri,DC=ntic,DC=ma" -Enabled $true~Créer ordinateur
+PS~Move-ADObject -Identity "CN=PC2,OU=info,DC=ntic,DC=ma" -TargetPath "OU=tri,DC=ntic,DC=ma"~Déplacer objet
+PS~Remove-ADComputer -Identity "cn=PC1,ou=tri,dc=ntic,dc=ma"~Supprimer ordinateur
+##w_gpo~📜 GPO & PSO~m202~Windows
+PS~New-GPO -Name "cmd"~Créer GPO
+PS~New-GPLink -Name "cmd" -Target "ou=tri,dc=ntic,dc=ma" -LinkEnabled Yes~Lier GPO l OU
+PS~Rename-GPO -Name "cmd" -TargetName "bloque-cmd"~Renommer
+PS~Remove-GPLink -Name "bloque-cmd" -Target "ou=tri,dc=ntic,dc=ma"~Supprimer lien
+PS~Remove-GPO -Name "bloque-cmd"~Supprimer GPO~PDF: "Rmove-Gpo"
+PS~Get-GPO -All~Lister GPO
+PS~Set-GPRegistryValue -Name "bloque-cmd" -Key "HKCU\Software\Policies\Microsoft\Windows\System" -ValueName DisableCMD -Type DWord -Value 1~Exemple: bloquer CMD
+CMD~gpupdate /force~Forcer application
+CMD~gpresult /r~Chouf GPO appliquées
+PS~New-ADFineGrainedPasswordPolicy -Name "PSO-Admins" -Precedence 10 -MinPasswordLength 12 -ComplexityEnabled $true~PSO: politique mot de passe spécifique
+PS~Add-ADFineGrainedPasswordPolicySubject PSO-Admins -Subjects "Admins"~Appliquer PSO l groupe
+##w_dfs~📁 DFS, Quotas, WDS~m202~Windows
+PS~Install-WindowsFeature -Name FS-DFS-Namespace -IncludeManagementTools~DFS Namespaces
+PS~Install-WindowsFeature -Name FS-DFS-Replication -IncludeManagementTools~DFS Replication
+PS~New-DfsnRoot -Path "\\ntic.ma\Public" -TargetPath "\\SRV1\Public" -Type DomainV2~Racine DFS
+PS~New-DfsnFolder -Path "\\ntic.ma\Public\Docs" -TargetPath "\\SRV2\Docs"~Dossier DFS + cible
+PS~New-SmbShare -Name Public -Path D:\Public -FullAccess "NTIC\Stagiaire"~Partager dossier
+PS~Install-WindowsFeature FS-Resource-Manager -IncludeManagementTools~FSRM (quotas)
+PS~New-FsrmQuota -Path D:\Public -Size 1GB~Quota 1 Go
+PS~Install-WindowsFeature WDS -IncludeManagementTools~Windows Deployment Services
+CMD~wdsutil /initialize-server /remInst:"D:\RemoteInstall"~Initialiser WDS
+##l_base~🐧 Base & réseau~m203~Linux
+SH~hostnamectl set-hostname srv1~Beddel smiya (persistante)
+SH~hostname~Chouf smiya
+SH~reboot~Redémarrer
+SH~systemctl stop firewalld.service~Wa9ef firewall (TP)
+SH~systemctl disable firewalld.service~Mayt3al3ch f boot
+SH~ifconfig eth0 192.168.1.2 netmask 255.255.255.0 broadcast 192.168.1.255~Configurer interface (ifconfig)
+SH~ifconfig eth0 up~Activer interface
+SH~ifconfig eth0 down~Désactiver interface
+SH~ifconfig~Afficher interfaces
+SH~ip addr add 192.168.1.2/24 dev eth0~Configurer IP (ip)
+SH~ip addr show dev eth0~Afficher IP
+SH~ip link set eth0 up~Activer lien
+SH~ip route add default via 192.168.1.1~Gateway par défaut
+SH~ifup eth0~Activer b fichier ifcfg
+SH~ifdown eth0~Désactiver~PDF: "ifconfig down eth0"
+SH~cat /etc/resolv.conf~DNS dyal client
+SH~ss -tulpn~Ports ouverts + processus
+SH~systemctl status named~État dyal service
+SH~journalctl -u named -f~Logs dyal service
+SH~rpm -qa | grep bind~Vérifier paquet installé
+SH~rpm -ivh paquet.rpm~Installation hors ligne
+##l_dns~🌐 DNS (BIND)~m203~Linux
+SH~dnf install bind bind-utils~Installer BIND
+SH~systemctl start named.service~Démarrer
+SH~systemctl enable named~Démarrage auto
+SH~named-checkconf /etc/named.conf~Vérifier syntaxe config
+SH~named-checkzone id.ma /var/named/id.ma.direct~Vérifier fichier de zone
+SH~rndc reload~Recharger zones
+SH~dig @192.168.10.20 www.id.ma~Tester résolution
+SH~nslookup www.id.ma 192.168.10.20~Tester b nslookup
+SH~firewall-cmd --permanent --add-service=dns~Ouvrir port 53
+##l_dhcp~📬 DHCP (dhcpd)~m203~Linux
+SH~dnf install dhcp-server~Installer DHCP
+SH~dhcpd -t -cf /etc/dhcp/dhcpd.conf~Tester syntaxe
+SH~systemctl start dhcpd~Démarrer
+SH~systemctl enable dhcpd~Démarrage auto
+SH~cat /var/lib/dhcpd/dhcpd.leases~Baux (leases)
+##l_smb~🗂 Samba~m203~Linux
+SH~dnf install samba~Installer Samba
+SH~systemctl start smb.service nmb.service~Démarrer smb + nmb
+SH~mkdir /opt/partage1~Dossier li ghadi y-t-partagé
+SH~groupadd ntic3~Créer groupe
+SH~useradd -g ntic3 user1~Créer user
+SH~smbpasswd -a user1~Password Samba dyal user
+SH~chgrp -R ntic3 /opt/partage1~Groupe propriétaire
+SH~chmod -R 770 /opt/partage1~Droits (groupe: rwx)~PDF: o+xw (7ata l-3ammin)
+SH~testparm~Vérifier smb.conf
+SH~smbclient -L //192.168.10.20 -U user1~Lister partages
+SH~mount -t cifs //192.168.10.20/partage1 /mnt -o username=user1~Monter partage
+##l_nfs~🔗 NFS~m203~Linux
+SH~dnf install nfs-utils~Installer NFS
+SH~systemctl start nfs-server~Démarrer
+SH~exportfs -ra~Ré-exporter /etc/exports~PDF: "/etc/export" (c'est exports)
+SH~exportfs -v~Chouf exports
+SH~showmount -e 192.168.10.20~Chouf partages dyal serveur
+SH~mount -t nfs 192.168.10.20:/pub /mnt/pub~Monter manuellement
+SH~mount -a~Monter ga3 /etc/fstab
+##l_ftp~📤 FTP (vsftpd)~m203~Linux
+SH~dnf install vsftpd~Installer
+SH~systemctl start vsftpd~Démarrer
+SH~systemctl enable vsftpd~Démarrage auto
+SH~ftp 192.168.10.20~Client FTP
+SH~firewall-cmd --permanent --add-service=ftp~Ouvrir FTP (21)
+##l_ssh~🔑 SSH & Telnet~m203~Linux
+SH~dnf install openssh-server~Installer
+SH~systemctl start sshd~Démarrer
+SH~systemctl enable sshd~Démarrage auto
+SH~systemctl restart sshd~Redémarrer~PDF: "service sshd restart" (ancien)
+SH~ssh root@192.168.1.2~Connexion SSH
+SH~ssh-keygen -t rsa -b 4096~Générer clé
+SH~ssh-copy-id user@192.168.1.2~Envoyer clé publique
+SH~scp fichier user@192.168.1.2:/tmp~Copier b SSH
+SH~dnf install xinetd telnet-server~Installer Telnet serveur
+SH~systemctl start xinetd~Démarrer xinetd
+SH~systemctl enable xinetd~Démarrage auto
+SH~telnet 192.168.1.2~Client Telnet
+##l_raid~💽 RAID (mdadm)~m203~Linux
+SH~dnf install mdadm~Installer
+SH~mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sdb /dev/sdc~RAID 0 (striping, bla redondance)
+SH~mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc~RAID 1 (mirroring)~PDF st3mel sda (disque système!): khdem b sdb/sdc
+SH~cat /proc/mdstat~État RAID
+SH~mdadm --detail /dev/md0~Détails
+SH~mkfs.ext4 /dev/md0~Formater
+SH~mount /dev/md0 /mnt/raid~Monter
+SH~mdadm --detail --scan >> /etc/mdadm.conf~Sauvegarder config
+##l_ldap~📒 LDAP~m203~Linux
+SH~dnf install openldap-servers openldap-clients~Installer
+SH~systemctl start slapd.service~Démarrer
+SH~systemctl enable slapd.service~Démarrage auto
+SH~slappasswd~Générer hash password root LDAP
+SH~ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif~Appliquer config (ldif)
+SH~ldapadd -x -D "cn=ldapadm,dc=id,dc=local" -W -f base.ldif~Zid OU / groupe / user
+SH~ldapsearch -x -b "dc=id,dc=local"~Chercher f annuaire
+SH~systemctl restart slapd~Redémarrer
+##l_http~🌍 Apache (httpd)~m203~Linux
+SH~dnf install httpd mod_ssl~Installer Apache + SSL
+SH~systemctl start httpd~Démarrer
+SH~systemctl enable httpd~Démarrage auto
+SH~mkdir -p /var/www/html/ntic.local~Dossier du site
+SH~chown -R apache:apache /var/www/html/ntic.local~Propriétaire
+SH~chmod -R 755 /var/www/html/ntic.local~Droits
+SH~httpd -t~Vérifier config Apache
+SH~systemctl restart httpd~Appliquer config
+SH~openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out /etc/httpd/server.crt -keyout /etc/httpd/server.key~Certificat auto-signé~PDF: rsa:1024 (faible), st3mel 2048
+SH~curl -I http://ntic.local~Tester HTTP (header)
+SH~curl -k https://ntic.local~Tester HTTPS
+##l_sec~🛡 Firewall & OpenSSL~m203~Linux
+SH~firewall-cmd --permanent --add-port=80/tcp~Ouvrir port 80~PDF: "--addport" (khssha add-port)
+SH~firewall-cmd --permanent --add-port=443/tcp~Ouvrir port 443
+SH~firewall-cmd --permanent --add-service=http~Ouvrir service
+SH~firewall-cmd --reload~Appliquer règles permanentes~PDF: "--relade"
+SH~firewall-cmd --list-all~Chouf règles
+SH~iptables -L -n -v~Lister règles
+SH~iptables -A INPUT -p tcp --dport 22 -j ACCEPT~Autoriser SSH
+SH~iptables -A INPUT -p icmp -j DROP~Bloquer ping
+SH~iptables -P INPUT DROP~Politique par défaut: DROP
+SH~iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE~NAT (masquerade)
+SH~iptables -F~Vider règles
+SH~iptables-save > /etc/sysconfig/iptables~Sauvegarder
+SH~openssl genrsa -out key.pem 2048~Générer clé privée
+SH~openssl req -new -key key.pem -out req.csr~Demande de certificat
+SH~openssl x509 -in server.crt -text -noout~Lire certificat X.509
+SH~openssl dgst -sha256 fichier~Hash (intégrité)
+SH~openssl enc -aes-256-cbc -in f.txt -out f.enc~Chiffrement symétrique AES
+`;
+const CONF=[
+['Interface réseau: /etc/sysconfig/network-scripts/ifcfg-eth0',`DEVICE=eth0\nBOOTPROTO=none\nONBOOT=yes\nIPADDR=192.168.1.2\nPREFIX=24\nGATEWAY=192.168.1.1   # PDF: "GETWAY" (faute)\nDNS1=8.8.8.8\nDOMAIN=id.ma`],
+['BIND: /etc/named.conf (options + zones master)',`options { listen-on port 53 { 127.0.0.1; 192.168.10.20; }; allow-query { 192.168.10.0/24; }; };\nzone "id.ma" IN { type master; file "id.ma.direct"; allow-transfer { 192.168.10.21; }; notify yes; allow-update { none; }; };\nzone "10.168.192.in-addr.arpa" IN { type master; file "id.ma.inverse"; allow-transfer { 192.168.10.21; }; };\n# Secondaire: type slave; masters { 192.168.10.20; }; file "id.ma.direct";`],
+['Zone directe: /var/named/id.ma.direct',`$TTL 1D\n@  IN SOA srvdns.id.ma. admin.id.ma. ( 64 3600 600 86400 3600 )\n@  IN NS  srvdns.id.ma.\n@  IN MX 10 mail.id.ma.\nsrvdns IN A 192.168.10.20\nsrvdns IN AAAA 2001:db8::2\nwww    IN A 192.168.10.20`],
+['Zone inverse: /var/named/id.ma.inverse',`$TTL 1D\n@  IN SOA srvdns.id.ma. admin.id.ma. ( 64 3600 600 86400 3600 )\n@  IN NS  srvdns.id.ma.\n20 IN PTR srvdns.id.ma.`],
+['DHCP: /etc/dhcp/dhcpd.conf (+ DDNS)',`subnet 192.168.10.0 netmask 255.255.255.0 {\n  range 192.168.10.30 192.168.10.60;\n  option routers 192.168.10.1;\n  option domain-name "id.ma";\n  option domain-name-servers 192.168.10.20, 192.168.10.21;\n  default-lease-time 600; max-lease-time 7200;\n}\nhost PC1 { hardware ethernet 00:A0:78:8E:9E:AA; fixed-address 192.168.10.4; }\n# DDNS\nddns-updates on; ddns-update-style interim; authoritative;\nddns-domainname "id.ma."; ddns-rev-domainname "in-addr.arpa.";\nzone id.ma. { primary 192.168.10.20; }`],
+['Samba: /etc/samba/smb.conf',`[global]\n  workgroup = MYGROUP\n  netbios name = srv1\n  security = user      # PDF: "share" (supprimé f Samba moderne)\n[partage1]\n  comment = Repertoire partage 1\n  path = /opt/partage1\n  browseable = yes\n  writable = yes\n  valid users = @ntic3`],
+['NFS: /etc/exports + /etc/fstab',`/pub 192.168.10.0/24(rw,sync,root_squash)\n# options: rw/ro, root_squash / no_root_squash, all_squash, anonuid, anongid\n# Client: /etc/fstab\n192.168.10.20:/pub /mnt/pub nfs defaults 0 0`],
+['vsftpd: /etc/vsftpd/vsftpd.conf',`anonymous_enable=NO\nlocal_enable=YES\nwrite_enable=YES\nlocal_umask=022\nlisten_port=21\nidle_session_timeout=600\nmax_clients=50\nmax_per_ip=4\nftpd_banner=Bienvenue sur mon ftp\nchroot_local_user=YES\nallow_writeable_chroot=YES`],
+['Telnet: /etc/xinetd.d/telnet  |  SSH: /etc/ssh/sshd_config',`service telnet {\n  disable = no\n  flags = REUSE\n  socket_type = stream\n  wait = no\n  user = root\n  server = /usr/sbin/in.telnetd\n  log_on_failure += USERID\n}\n# sshd_config\nPort 22\nPermitRootLogin no     # PDF: yes (khtar)\nPermitEmptyPasswords no\nListenAddress 192.168.1.210`],
+['Apache: /etc/httpd/conf.d/ntic.local.conf (vhost + SSL)',`<VirtualHost *:80>\n  ServerName ntic.local\n  Redirect / https://ntic.local/\n</VirtualHost>\n<VirtualHost *:443>\n  ServerName ntic.local\n  DocumentRoot /var/www/html/ntic.local\n  SSLEngine on\n  SSLCertificateFile /etc/httpd/server.crt\n  SSLCertificateKeyFile /etc/httpd/server.key\n</VirtualHost>\n# /etc/hosts:  192.168.10.20  ntic.local`],
+['LDAP: base.ldif',`dn: dc=ilham,dc=local\nobjectClass: top\nobjectClass: domain\ndc: ilham\n\ndn: ou=tri,dc=ilham,dc=local\nobjectClass: organizationalUnit\nou: tri\n\ndn: uid=ahmed,ou=tri,dc=ilham,dc=local\nobjectClass: inetOrgPerson\ncn: ahmed serraji\nsn: serraji\nuid: ahmed`]
+];
+const QCM=String.raw`
+Ch7al port dyal SSH ?~22~23~21~80~SSH = TCP 22. Telnet = 23 (PDF kteb 23 l SSH: ghalta).
+Chno port dyal Telnet ?~23~22~25~110~Telnet = TCP 23.
+Chno ports dyal DHCP ?~UDP 67 (serveur) / 68 (client)~TCP 67/68~UDP 53/69~TCP 21/22~DHCP kaykhdem b UDP.
+Chno protocole w port dyal TFTP ?~UDP 69~TCP 69~UDP 53~TCP 21~PDF kteb "TPTP" (faute).
+DNS kaykhdem 3la ?~Port 53 (UDP w TCP)~TCP 25~TCP 110~UDP 69~Requêtes UDP 53, transfert de zone TCP 53.
+Wildcard dyal /27 ?~0.0.0.31~0.0.0.15~0.0.0.63~0.0.0.7~255.255.255.224 → 255 - 224 = 31.
+Ch7al men hôte f /26 ?~62~64~30~126~2^6 - 2 = 62.
+Chno AD dyal OSPF ?~110~90~120~100~Connecté 0, statique 1, EIGRP 90, OSPF 110, RIP 120.
+Chno AD dyal RIP ?~120~110~90~170~RIP = 120.
+Chno AD dyal route statique ?~1~0~5~90~Connectée = 0, statique = 1.
+Command li kat-sauvegardi config ?~copy running-config startup-config~copy startup-config running-config~write erase~show running-config~RAM → NVRAM.
+Ina password m3ssser b MD5 ?~enable secret~enable password~password f line~banner motd~enable secret machi lisible f config.
+ip helper-address kaydir ?~Kay-relayer requêtes DHCP l serveur f subnet akhor~Kay3ti IP l clients~Kay-configuri DNS~Kay-bloki broadcast~Relais DHCP.
+Chno farq bin PAgP w LACP ?~PAgP = Cisco, LACP = standard IEEE~PAgP standard, LACP Cisco~Homa b7al b7al~LACP ghir f L3~LACP: active / passive. PAgP: desirable / auto.
+LACP active + passive ?~Négociation réussie~No negotiation~Err-disabled~Trunk ghir~Passive + passive = ma kaynch négociation.
+PAgP auto + auto ?~No negotiation~Négociation réussie~Trunk~Access~Khssek wa7ed desirable.
+Chno états dyal HSRP ?~Active, Standby, Listen~Master, Backup~Root, Designated~Blocking, Forwarding~Active/Standby w ba9i routers f Listen.
+Chno FHRP li kaydir load-balancing ?~GLBP~HSRP~VRRP~STP~GLBP = Gateway Load Balancing Protocol.
+Chkoun Root Bridge f STP ?~Plus petit Bridge ID (priorité + MAC)~Plus haute priorité~Plus petite IP~Premier switch li tchghel~Priorité par défaut 32768 + VLAN.
+Chno kaydir portfast ?~Port y-douz direct l forwarding (PC)~Kay-bloki port~Kay-actif trunk~Kay-crée EtherChannel~Ghir 3la ports edge.
+Ina VTP mode ma ymkenlouch ykhleq VLANs ?~Client~Serveur~Transparent~Aucun~Client kay-applique ghir.
+Ina VTP mode kay-forwardi bla ma yappliqui ?~Transparent~Client~Serveur~Pruning~Transparent = VLANs locales.
+DTP: dynamic auto + dynamic auto ?~Access~Trunk~Limited connectivity~Err-disabled~Fach 2 passives, ma kayn hta trunk.
+NAT overload = ?~PAT~NAT statique~NAT dynamique b pool ghir~DHCP relay~PAT = plusieurs IP privées → IP publique wa7da b ports.
+Fin kandiro ACL standard ?~Qrib mn destination~Qrib mn source~F ISP~Ghir 3la VTY~Standard → près destination. Étendue → près source.
+Chno dernière règle dyal ACL ?~deny any implicite~permit any implicite~Rien~log~Dima zid permit ila bghiti tconsti ga3 trafic akhor.
+Numéros dyal ACL standard ?~1–99 (1300–1999)~100–199~200–299~1–10~Étendue: 100–199 (2000–2699).
+Préfixe dyal link-local IPv6 ?~FE80::/10~2001::/16~FC00::/7~FF00::/8~FF00::/8 = multicast.
+Flag dyal DHCPv6 Stateless ?~ipv6 nd other-config-flag~ipv6 nd managed-config-flag~ipv6 nd ra suppress~ipv6 dhcp relay~Managed = Stateful.
+EUI-64 kay-bedlel ina bit ?~7ème bit (U/L) dyal 1er octet~1er bit~Dernier bit~Bit 32~Kayzid FFFE f west MAC.
+Ordre DHCP ?~Discover, Offer, Request, Ack~Offer, Discover, Ack, Request~Request, Offer, Discover, Ack~Discover, Request, Offer, Ack~DORA.
+APIPA kat3ti IP mn ?~169.254.0.0/16~192.168.0.0/16~10.0.0.0/8~172.16.0.0/12~Melli DHCP ma-kaynch.
+Ch7al men rôle FSMO ?~5 (2 forêt + 3 domaine)~3~7~2~Schéma + Dénomination (forêt); RID + PDC + Infrastructure (domaine).
+Ina FSMO kay3ti RID/SID ?~Maître RID~Maître infrastructure~Émulateur PDC~Maître schéma~RID = Relative ID.
+Ina record DNS kay-rbet nom → IPv6 ?~AAAA~A~PTR~CNAME~A = IPv4. PTR = inverse.
+Ordre d'application dyal GPO ?~Local → Site → Domaine → OU~OU → Domaine → Site → Local~Domaine → Local → OU → Site~Site → Local → OU → Domaine~LSDOU. L-akhir y-ghleb.
+Fichier config dyal BIND ?~/etc/named.conf~/etc/bind.conf~/etc/dns.conf~/etc/resolv.conf~resolv.conf = DNS dyal client.
+Port dyal NFS ?~2049~2409~389~445~NFS = 2049.
+RAID 1 howa ?~Mirroring~Striping~Parité~JBOD~RAID 0 = striping.
+Command bach tzid user f Samba ?~smbpasswd -a user1~useradd -s user1~samba add user1~passwd -smb user1~Khssou y-koun user Linux d'abord.
+Port dyal LDAP ?~389~636~3389~88~LDAPS = 636.
+Bach t-ouvri port 80 b permanence ?~firewall-cmd --permanent --add-port=80/tcp puis --reload~firewall-cmd --add-port 80~iptables --open 80~systemctl open 80~Mn ghir --reload ma-kay-tbdel walo.
+SDN: Southbound interface kaykhdem b ?~OpenFlow~REST API~SOAP~SNMP~Northbound = API (REST).
+SaaS mital ?~Office 365~AWS EC2~Heroku~OpenStack Nova~EC2 = IaaS, Heroku = PaaS.
+Service OpenStack dyal réseau ?~Neutron~Nova~Cinder~Glance~Nova = calcul, Cinder = stockage bloc, Glance = images, Keystone = identité.
+IPsec: ESP kayzid 3la AH ?~Chiffrement (confidentialité)~Intégrité~Authentification~Compression~AH: intégrité + auth ghir.
+IDS vs IPS ?~IPS kay-bloki, IDS ghir kay-détecter~IDS kay-bloki~Homa b7al b7al~IPS ghir f Linux~IPS = prévention.
+Algorithme asymétrique ?~RSA~AES~DES~RC4~AES / DES / RC4 = symétriques.
+Signature électronique = ?~Hash + clé privée~Hash + clé publique~Chiffrement symétrique~Certificat ghir~Kat-verifa l'authenticité + intégrité.
+PPP: ina auth a7sen ?~CHAP~PAP~Telnet~Aucune~CHAP kayst3mel hash (mot de passe ma-kayddouz-ch f clair).
+Fréquence dyal 802.11ac ?~5 GHz~2.4 GHz~60 GHz~900 MHz~802.11a = 5 GHz (PDF kteb 2.4: ghalta). 802.11ad = 60 GHz.
+Syslog niveau 3 ?~errors~warnings~critical~alerts~0 emergencies, 1 alerts, 2 critical, 3 errors, 4 warnings, 5 notifications, 6 informational, 7 debugging.
+`;
+const ORD=[
+['SSH f router',['ip domain-name ista.ma','username ISTA secret cisco1234','crypto key generate rsa modulus 1024','ip ssh version 2','line vty 0 4','transport input ssh','login local']],
+['VLAN + port access',['vlan 10','name COMPTA','interface f0/1','switchport mode access','switchport access vlan 10','end','show vlan brief']],
+['OSPF',['router ospf 10','router-id 1.1.1.1','network 192.168.0.0 0.0.0.255 area 0','passive-interface g0/0','default-information originate']],
+['DHCP router',['ip dhcp excluded-address 192.168.0.1 192.168.0.10','ip dhcp pool ISTA','network 192.168.0.0 255.255.255.0','default-router 192.168.0.1','dns-server 8.8.8.8']],
+['PAT',['access-list 1 permit 192.168.0.0 0.0.0.255','ip nat inside source list 1 interface s2/0 overload','interface f0/0','ip nat inside','interface s2/0','ip nat outside']],
+['Forêt AD (PowerShell)',['Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools','Install-ADDSForest -DomainName ntic.ma','Get-ADDomain','New-ADOrganizationalUnit -Name TRI -Path "dc=ntic,dc=ma"','New-ADGroup -Name "Stagiaire" -Path "ou=tri,dc=ntic,dc=ma" -GroupCategory Security -GroupScope Global']],
+['DNS Linux (BIND)',['dnf install bind bind-utils','vi /etc/named.conf','named-checkconf /etc/named.conf','systemctl start named.service','firewall-cmd --permanent --add-service=dns','firewall-cmd --reload']]
+];
+const LABS=[
+{t:'Base + sécurité',h:'Router',s:[
+['G',/^hostname \S+$/i,'Beddel smiyt l-router','hostname R1'],['G',/^enable secret \S+$/i,'Password m3ssser l privileged','enable secret cisco123'],['G',/^no ip domain-lookup$/i,'7ebbes DNS lookup','no ip domain-lookup'],['G',/^service password-encryption$/i,'Kheddem encryption l passwords','service password-encryption'],['G*',/^line console 0$/i,'Dkhol l console','line console 0'],['L',/^password \S+$/i,'Password l console','password cisco'],['L',/^login$/i,'Talab login','login'],['P',/^copy run(ning-config)? start(up-config)?$/i,'Sauvegarde config','copy running-config startup-config']]},
+{t:'SSH',h:'Router',s:[
+['G',/^ip domain-name \S+$/i,'Domaine (darouri)','ip domain-name ista.ma'],['G',/^username \S+ (secret|password) \S+$/i,'Compte local','username ISTA secret cisco1234'],['G',/^crypto key generate rsa( modulus \d+)?$/i,'Générer clés RSA','crypto key generate rsa modulus 1024'],['G',/^ip ssh version 2$/i,'SSH v2','ip ssh version 2'],['G*',/^line vty 0 4$/i,'Dkhol l VTY','line vty 0 4'],['L',/^transport input ssh$/i,'Ghir SSH','transport input ssh'],['L',/^login local$/i,'Auth locale','login local']]},
+{t:'VLAN (switch)',h:'Switch',s:[
+['G*',/^vlan 10$/i,'Créer VLAN 10','vlan 10'],['V',/^name \S+$/i,'Smiyt VLAN','name COMPTA'],['G*',/^int(erface)? (f|fa|fastethernet)0\/1$/i,'Dkhol l f0/1','interface f0/1'],['I',/^switchport mode access$/i,'Mode access','switchport mode access'],['I',/^switchport access vlan 10$/i,'Dkhkhel port f VLAN 10','switchport access vlan 10'],['P',/^show vlan( brief)?$/i,'Vérifier','show vlan brief']]},
+{t:'OSPF',h:'R1',s:[
+['G*',/^router ospf \d+$/i,'Activer OSPF','router ospf 10'],['R',/^router-id \d+\.\d+\.\d+\.\d+$/i,'Router ID','router-id 1.1.1.1'],['R',/^network \S+ \S+ area \d+$/i,'Annoncer réseau (wildcard)','network 192.168.0.0 0.0.0.255 area 0'],['R',/^passive-interface \S+$/i,'Interface passive','passive-interface g0/0'],['R',/^default-information originate$/i,'Propager default','default-information originate'],['P',/^show ip ospf neighbor$/i,'Chouf voisins','show ip ospf neighbor']]},
+{t:'DHCP',h:'Router',s:[
+['G',/^ip dhcp excluded-address \S+( \S+)?$/i,'Exclure adresses','ip dhcp excluded-address 192.168.0.1 192.168.0.10'],['G*',/^ip dhcp pool \S+$/i,'Créer pool','ip dhcp pool ISTA'],['D',/^network \S+ \S+$/i,'Réseau','network 192.168.0.0 255.255.255.0'],['D',/^default-router \S+$/i,'Gateway','default-router 192.168.0.1'],['D',/^dns-server \S+$/i,'DNS','dns-server 8.8.8.8']]},
+{t:'PAT',h:'Router',s:[
+['G',/^access-list \d+ permit \S+ \S+$/i,'ACL du réseau privé','access-list 1 permit 192.168.0.0 0.0.0.255'],['G',/^ip nat inside source list \d+ interface \S+ overload$/i,'PAT','ip nat inside source list 1 interface s2/0 overload'],['G*',/^int(erface)? \S+$/i,'Interface interne','interface f0/0'],['I',/^ip nat inside$/i,'Marquer inside','ip nat inside'],['G*',/^int(erface)? \S+$/i,'Interface externe','interface s2/0'],['I',/^ip nat outside$/i,'Marquer outside','ip nat outside']]}
+];
+
+/* ======================= OUTILS DE BASE ======================= */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>shuf([...new Set(a)]).slice(0,n);
+const S={xp:0,streak:0,best:0,learned:[]};
+try{Object.assign(S,JSON.parse(localStorage.getItem('cla2')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('cla2',JSON.stringify(S))}catch(e){}};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1600)}
+function boom(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=$('#cf'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const P=[...Array(100)].map(()=>({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*15,vy:Math.random()*-13-2,s:5+Math.random()*5,c:['#0a62e0','#3fd184','#f0b429','#ff6b7e','#7fb4ff'][Math.random()*5|0],r:Math.random()*6}));let f=0;(function a(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;p.r+=.2;x.fillStyle=p.c;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore()});if(++f<110)requestAnimationFrame(a);else x.clearRect(0,0,c.width,c.height)})()}
+
+/* ======================= PARSE DB ======================= */
+const CATS=[],DB=[];let cur;
+RAW.trim().split('\n').forEach(l=>{if(l.startsWith('##')){const [k,t,m,h]=l.slice(2).split('~');cur={k,t,m,h,items:[]};CATS.push(cur)}else if(l.trim()){const [mo,c,d,n]=l.split('~');const it={mo,c,d:d||'',n:n||'',cat:cur};cur.items.push(it);DB.push(it)}});
+const prompt=it=>SHELL[it.mo]||(it.cat.h+MODES[it.mo]);
+const lvl=()=>Math.floor(S.xp/100)+1;
+function addXP(n){const b=lvl();S.xp+=n;if(lvl()>b){boom();toast('🚀 Niveau '+lvl()+'!')}save();ui()}
+function ui(){const L=S.learned.length,T=DB.length,p=L/T;$('#rg').style.strokeDashoffset=213.6*(1-p);$('#rgt').innerHTML=`<b>${L} / ${T}</b> commandes mhfodin<br><small>${Math.round(p*100)}% — kmmel l-parcours</small>`;
+$('#xp').innerHTML=`<b>Niveau ${lvl()}</b> · ${S.xp} XP<div class="bar"><i style="width:${S.xp%100}%"></i></div>🔥 Série: ${S.streak} · Record: ${S.best}`}
+
+/* ======================= TABS ======================= */
+const TABS=[['home','🏠 Accueil'],['m201','🛰 M201 · Cisco CLI'],['m202','🪟 M202 · Windows'],['m203','🐧 M203 · Linux'],['cours','📘 Cours M201–M206'],['outils','🧮 Outils'],['exo','🎯 Exercices'],['lab','💻 Lab CLI']];
+$('#navs').innerHTML=TABS.map(([k,l])=>`<button class="nv" data-t="${k}" type="button"><i></i>${l}</button>`).join('');
+const built={};
+function show(k){$$('.tab').forEach(s=>s.hidden=s.id!=='t-'+k);$$('.nv').forEach(b=>b.setAttribute('aria-current',b.dataset.t===k));scrollTo(0,0);if(!built[k]){built[k]=1;({m201:()=>mod('m201'),m202:()=>mod('m202'),m203:()=>mod('m203'),cours:theory,outils:tools,exo:exo,lab:lab}[k]||(()=>{}))()}}
+$('#navs').onclick=e=>{const b=e.target.closest('.nv');if(b)show(b.dataset.t)};
+
+/* ======================= HOME ======================= */
+const MODINFO=[['m201','M201 · Réseaux Cisco','OSI, VLAN, STP, OSPF, ACL, NAT, IPv6, VPN, VoIP…'],['m202','M202 · Windows Server','DNS, DHCP, AD DS, GPO, DFS en PowerShell'],['m203','M203 · Linux','BIND, DHCP, Samba, NFS, FTP, SSH, RAID, LDAP, Apache'],['cours','M204 · SDN','Contrôleur, OpenFlow, NFV, Cisco ACI'],['cours','M205 · Cloud','IaaS/PaaS/SaaS, Azure, OpenStack'],['cours','M206 · Sécurité','Attaques, crypto, firewall, VPN, SIEM']];
+$('#mods').innerHTML=MODINFO.map(([t,a,b])=>{const n=DB.filter(x=>x.cat.m===t).length;return `<button class="mc" data-t="${t}" type="button"><b>${a}</b><span>${b}${n?` — <b style="display:inline">${n} commandes</b>`:''}</span></button>`}).join('');
+$('#mods').onclick=e=>{const b=e.target.closest('.mc');if(b)show(b.dataset.t)};
+
+/* ======================= COMMANDES ======================= */
+function mod(m){
+  const el=$('#c-'+m),cs=CATS.filter(c=>c.m===m),tot=cs.reduce((a,c)=>a+c.items.length,0);let cur=cs[0].k,q='';
+  el.innerHTML=`<div class="tools"><input type="search" class="search" placeholder="Qleb f ${tot} commandes…" aria-label="Recherche"></div><div class="chips">${cs.map(c=>`<button class="chip" data-k="${c.k}" type="button">${c.t} <b>${c.items.length}</b></button>`).join('')}${m==='m203'?'<button class="chip" data-k="conf" type="button">📄 Fichiers de config</button>':''}</div><div class="rows"></div>`;
+  const rows=el.querySelector('.rows');
+  const rowH=it=>{const l=S.learned.includes(it.c);return `<div class="row${l?' lr':''}"><div class="term" tabindex="0" role="button" data-c="${esc(it.c)}" title="Click bach t-copi"><span class="pr">${esc(prompt(it))}</span> ${esc(it.c)}</div><div class="ds">${esc(it.d)}</div>${it.n?`<div class="nt">⚠ ${esc(it.n)}</div>`:''}<button class="ok" data-c="${esc(it.c)}" type="button">${l?'✓ Mhfoda':'Hfdt-ha'}</button></div>`};
+  const draw=()=>{el.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',!q&&b.dataset.k===cur));
+    if(q){const r=DB.filter(x=>x.cat.m===m&&(x.c+' '+x.d).toLowerCase().includes(q));rows.innerHTML=r.length?r.map(rowH).join(''):'<p>Walo. Jrreb kelma khra (ex: ospf, vlan, dns).</p>';return}
+    if(cur==='conf'){rows.innerHTML=CONF.map(([t,c])=>`<h3>${esc(t)}</h3><pre class="cf">${esc(c)}</pre>`).join('');return}
+    rows.innerHTML=cs.find(c=>c.k===cur).items.map(rowH).join('')};
+  el.onclick=e=>{const ch=e.target.closest('.chip');if(ch){cur=ch.dataset.k;q='';el.querySelector('.search').value='';draw();return}
+    const ok=e.target.closest('.ok');if(ok){const c=ok.dataset.c,i=S.learned.indexOf(c);if(i<0){S.learned.push(c);addXP(2)}else{S.learned.splice(i,1);save();ui()}ok.closest('.row').classList.toggle('lr',i<0);ok.textContent=i<0?'✓ Mhfoda':'Hfdt-ha';return}
+    const t=e.target.closest('.term');if(t&&t.dataset.c){try{navigator.clipboard.writeText(t.dataset.c).then(()=>toast('Copié ✓'),()=>toast('Copie manuelle'))}catch(x){toast('Copie manuelle')}}};
+  el.onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('term'))e.target.click()};
+  el.querySelector('.search').oninput=e=>{q=e.target.value.trim().toLowerCase();draw()};
+  draw();
+}
+
+/* ======================= COURS ======================= */
+const T=(h,r)=>`<table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.map(a=>`<tr>${a.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+function theory(){
+const D=[
+['⚠ Corrections dyal PDF (m3ahom 3lach)',`<ul><li><b>SSH = TCP 22</b> (PDF: 23). <b>TFTP</b> machi "TPTP". <b>DNS</b> = UDP/TCP 53.</li><li><b>802.11a = 5 GHz</b> w <b>802.11ad = 60 GHz</b> (PDF: 2.4 / 5).</li><li><b>show startup-config</b> = NVRAM; l-RAM howa running-config.</li><li><b>HSRP</b>: <code>standby</code> kelma wa7da. <b>GLBP</b>: <code>glbp 10 ...</code> machi standby.</li><li>DHCP: <code>default-router</code> = gateway (.1), machi l-adresse réseau.</li><li>ACL: HTTPS = <b>TCP</b> 443. ACL VTY = <code>access-class</code>.</li><li><b>EUI-64</b>: l-exemple dyal PDF ghalat. MAC <code>00:1A:2B:3C:4D:5E</code> → <b>021A:2BFF:FE3C:4D5E</b> (kay-bedlel l-bit 7 dyal l-octet lowel: 00 → 02, w FFFE kaydkhol f west).</li><li>VPN: smiyt crypto map w ACL khassha ykounou nafs chi (IPSECMAP / 110). Ma-t-st3melch DES / MD5 / RSA 1024 f vrai.</li><li>Linux: <code>/etc/exports</code>, <code>firewall-cmd --add-port</code>, <code>--reload</code>, Samba <code>security = user</code>.</li></ul>`],
+['M201 · OSI vs TCP/IP',T(['OSI','Protocoles','TCP/IP'],[['7 Application','HTTP, FTP, SMTP, DNS','4 Application'],['6 Présentation','SSL/TLS, MIME','4'],['5 Session','NetBIOS, RPC, SSH','4'],['4 Transport','TCP, UDP, SCTP','3 Transport'],['3 Réseau','IP, ICMP, ARP*','2 Internet'],['2 Liaison','Ethernet 802.3, Wi-Fi 802.11, HDLC, PPP','1 Accès réseau'],['1 Physique','Câbles, fibre, radio','1']])+`<p>TCP = fiable, orienté connexion, plus lent. UDP = rapide, sans connexion, non fiable. *ARP kayban f L2/L3.</p>`],
+['Commutation, STP, EtherChannel',`<ul><li><b>Store-and-forward</b>: l-switch ykhtabr l-trame kamla (CRC) 9bel ma yb3tha. <b>Cut-through</b>: y-b3tha mnin y-3ref l-MAC destination.</li><li><b>STP</b>: élection Root Bridge → Root Port (kol switch) → Designated Port (kol segment) → blocage dyal ba9i. Versions: STP 802.1D, RSTP 802.1w, MSTP 802.1s, PVST+, Rapid-PVST+.</li><li><b>DTP</b>: auto+auto = access; desirable + (auto/desirable/trunk) = trunk; trunk + access = limited connectivity.</li><li><b>VTP</b>: server (crée/modifie), client (applique), transparent (forward ghir). Domain + password khassom y-koun nafs chi.</li><li><b>EtherChannel</b>: même vitesse, duplex, VLANs, config. PAgP (Cisco: auto/desirable), LACP (IEEE: active/passive), on = statique.</li></ul>`],
+['FHRP, Routage, OSPF',`<ul><li><b>FHRP</b>: HSRP (Cisco, Active/Standby/Listen), VRRP (IETF), GLBP (Cisco + load balancing).</li><li><b>Distance administrative</b>: connecté 0 · statique 1 · eBGP 20 · EIGRP 90 · OSPF 110 · RIP 120 · EIGRP ext 170 · iBGP 200.</li><li><b>OSPF</b>: Hello → voisinage → LSA / LSDB → Dijkstra (SPF) → table de routage. Area 0 = backbone. Avantages: scalabilité, convergence rapide.</li><li><b>EIGRP</b>: hybride, algo DUAL. <b>BGP</b>: routage externe entre AS.</li></ul>`],
+['ACL, NAT, IPv6, VPN',`<ul><li><b>ACL standard</b> (source, 1–99) près de destination · <b>étendue</b> (src, dst, protocole, port, 100–199) près de source. Deny implicite à la fin.</li><li><b>NAT</b>: statique (1↔1), dynamique (pool), <b>PAT/overload</b> (plusieurs → 1 IP + ports).</li><li><b>IPv6</b>: SLAAC (RA + EUI-64), DHCPv6 stateless (other-config-flag), DHCPv6 stateful (managed-config-flag). Link-local = FE80::/10.</li><li><b>VPN</b>: accès distant, site-à-site, cloud. <b>IPsec</b>: AH (auth + intégrité), ESP (+ chiffrement). <b>GRE</b>: tunnel, bla chiffrement.</li></ul>`],
+['Wi-Fi & accès Internet',T(['Norme','Fréquence','Débit max'],[['802.11','2.4 GHz','2 Mbps'],['802.11b','2.4 GHz','11 Mbps'],['802.11a','5 GHz','54 Mbps'],['802.11g','2.4 GHz','54 Mbps'],['802.11n','2.4 + 5 GHz','600 Mbps'],['802.11ac','5 GHz','1.3 Gbps+'],['802.11ad','60 GHz','7 Gbps'],['802.11ax (Wi-Fi 6)','2.4 + 5 GHz','9.6 Gbps']])+`<ul><li>BSS = 1 AP + clients · BSA = zone du BSS · ESS = plusieurs AP m3a nafs SSID · ESA = zone du ESS.</li><li>ADSL (asymétrique), SDSL (symétrique), FTTH (fibre jusqu'à domicile), FTTB (bâtiment), FTTN (nœud). ISP = FAI. AS = système autonome.</li></ul>`],
+['M202 · Windows Server / AD',`<ul><li><b>DNS</b>: récursive vs itérative · zones directe/inverse · primaire/secondaire/cache · enregistrements SOA, NS, A, AAAA, CNAME, MX, PTR.</li><li><b>DHCP</b>: DORA (Discover, Offer, Request, Ack). Bail renouvelé à 50 %. APIPA = 169.254.0.0/16.</li><li><b>AD</b>: structure logique (OU, domaine, arbre, forêt) et physique (DC, site). Catalogue global, réplication, RODC.</li><li><b>5 FSMO</b>: Schéma + Dénomination (forêt) · RID + PDC + Infrastructure (domaine).</li><li><b>Groupes</b>: type (distribution / sécurité) × étendue (domaine local / global / universel).</li><li><b>GPO</b>: ordre LSDOU (Local, Site, Domaine, OU). PSO = politique mot de passe par groupe.</li><li><b>Profils</b>: par défaut, obligatoire, itinérant. <b>DFS</b>: racine, dossier, cible. <b>WDS</b>: déploiement par PXE (+ DHCP).</li></ul>`],
+['M203 · Services Linux (ports)',T(['Service','Port','Fichier / paquet'],[['DNS (BIND)','53','/etc/named.conf'],['DHCP','UDP 67/68','/etc/dhcp/dhcpd.conf'],['Samba','137-139, 445','/etc/samba/smb.conf'],['NFS','2049','/etc/exports'],['FTP (vsftpd)','21','/etc/vsftpd/vsftpd.conf'],['Telnet','23','/etc/xinetd.d/telnet'],['SSH','22','/etc/ssh/sshd_config'],['LDAP','389 (636 LDAPS)','/etc/openldap/slapd.d/'],['HTTP / HTTPS','80 / 443','/etc/httpd/conf/httpd.conf']])+`<p>RAID 0 = striping (perf, bla redondance). RAID 1 = mirroring (redondance, 50 % d'espace).</p>`],
+['M204 · SDN',`<ul><li>Réseaux traditionnels: complexité, passage à l'échelle, dépendance aux constructeurs.</li><li><b>SDN</b> = séparer plan de contrôle (contrôleur) et plan de données (switchs). 3 plans: application → contrôle → données. <b>Northbound</b> = API, <b>Southbound</b> = OpenFlow.</li><li>Modèles: flow-based, agrégé, réactif (1er paquet → contrôleur), proactif (table pré-remplie).</li><li><b>NFV</b> virtualise les fonctions réseau; SDN virtualise le contrôle. Solutions: Cisco ACI, APIC-EM, DNA. SD-WAN.</li><li><b>OpenFlow</b>: table de flux + messages (contrôleur→switch, asynchrones, symétriques). Switchs matériels / logiciels / hybrides.</li><li>Formats: XML, JSON, YAML. API: REST, SOAP. URI = URL + URN.</li></ul>`],
+['M205 · Cloud, Azure, OpenStack',`<ul><li><b>IaaS</b> (EC2, Azure VM), <b>PaaS</b> (Heroku, App Engine), <b>SaaS</b> (Office 365, Gmail). Modèles: public, privé, hybride, communautaire. Facturation Pay-as-you-go.</li><li>Virtualisation (serveur, poste, stockage, réseau, application, données) vs conteneurs (partagent le noyau, plus léger).</li><li><b>Azure</b>: abonnements (Libre, PAYG, Entreprise, Étudiant), NSG, load balancer, peering, hub-and-spoke, ExpressRoute, stockage (LRS, ZRS, GRS, GZRS), SQL (single, elastic pool, managed instance; DTU vs vCore), Site Recovery, SLA, Azure Monitor, TCO.</li><li><b>OpenStack</b>: Nova (calcul), Cinder (bloc), Neutron (réseau), Glance (images), Keystone (identité), Heat (orchestration), Horizon (dashboard), Swift (objet).</li><li>Automatisation = tâche automatique. Orchestration = workflow (Kubernetes, Heat, Airflow).</li></ul>`],
+['M206 · Sécurité',`<ul><li>Objectifs: disponibilité, confidentialité, intégrité, authentification, non-répudiation, contrôle d'accès, traçabilité.</li><li>Menace · vulnérabilité · risque · attaque · contre-mesure · actif.</li><li>Attaques: virus, DoS / DDoS, SYN flood, IP spoofing, pharming, phishing, ransomware, ingénierie sociale, brute force / dictionnaire / keylogger. Passive vs active, interne vs externe. White hat, black hat, cracker, hacktiviste.</li><li><b>Crypto</b>: symétrique (AES, DES, RC4) · asymétrique (RSA: publique chiffre, privée déchiffre) · hash (MD5, SHA) · signature = hash + clé privée · certificat X.509 (clé publique + identité + CA).</li><li><b>Défense</b>: pare-feu, DMZ, proxy (cache, reverse, filtrage), IDS/IPS, UTM, SIEM, DLP, SEG, VPN (IPsec, TLS), iptables, OpenSSL, 2FA, mises à jour, mot de passe fort (10+ caractères mixtes).</li></ul>`]
+];
+$('#theory').innerHTML=D.map(([t,h],i)=>`<details${i===0?' open':''}><summary>${t}</summary>${h}</details>`).join('');
+}
+
+/* ======================= OUTILS ======================= */
+const ip2n=s=>s.split('.').reduce((a,b)=>a*256+ +b,0),n2ip=n=>[24,16,8,0].map(s=>(n>>>s)&255).join('.'),mk=p=>p?(0xFFFFFFFF<<(32-p))>>>0:0;
+function subnet(v){const m=v.trim().match(/^(\d+\.\d+\.\d+\.\d+)\/(\d+)$/);if(!m)return 'Format: 192.168.10.77/26';const p=+m[2],ip=ip2n(m[1]),k=mk(p),net=(ip&k)>>>0,bc=(net|(~k>>>0))>>>0,h=p>=31?(p==32?1:2):2**(32-p)-2;
+return `Réseau     : ${n2ip(net)}/${p}\nMask       : ${n2ip(k)}\nWildcard   : ${n2ip(~k>>>0)}\nBroadcast  : ${n2ip(bc)}\nPremier    : ${n2ip(p>=31?net:net+1)}\nDernier    : ${n2ip(p>=31?bc:bc-1)}\nHôtes      : ${h}`}
+function eui(mac,pf){const h=mac.replace(/[^0-9a-f]/gi,'').toLowerCase();if(h.length!==12)return null;const b=parseInt(h.slice(0,2),16)^2,g=[b.toString(16).padStart(2,'0')+h.slice(2,4),h.slice(4,6)+'ff','fe'+h.slice(6,8),h.slice(8,12)];return {id:g.join(':').toUpperCase(),full:(pf?pf+':':'')+g.join(':')}}
+function tools(){
+  const r=()=>$('#snr').textContent=subnet($('#sn').value);$('#snb').onclick=r;$('#sn').onkeydown=e=>e.key==='Enter'&&r();r();
+  const e2=()=>{const x=eui($('#mc').value,$('#pf').value.trim());$('#mcr').textContent=x?`Interface ID : ${x.id}\nAdresse IPv6 : ${x.full}\n(1er octet XOR 02, FFFE f west)`:'MAC khasso 12 hex (00:1A:2B:3C:4D:5E)'};$('#mcb').onclick=e2;e2();
+  $('#ref').innerHTML=[
+   ['Masques & wildcards',T(['/','Mask','Wildcard','Hôtes'],[24,25,26,27,28,29,30].map(p=>['/'+p,n2ip(mk(p)),n2ip(~mk(p)>>>0),2**(32-p)-2]))],
+   ['Ports principaux',T(['Service','Protocole','Port'],[['FTP','TCP','21'],['SSH','TCP','22'],['Telnet','TCP','23'],['SMTP','TCP','25'],['DNS','UDP/TCP','53'],['DHCP','UDP','67 serveur / 68 client'],['TFTP','UDP','69'],['HTTP','TCP','80'],['POP3','TCP','110'],['IMAP','TCP','143'],['LDAP','TCP','389'],['HTTPS','TCP','443'],['Syslog','UDP','514'],['NFS','TCP/UDP','2049']])],
+   ['Niveaux Syslog',T(['Niveau','Nom'],[['0','emergencies'],['1','alerts'],['2','critical'],['3','errors'],['4','warnings'],['5','notifications'],['6','informational'],['7','debugging']])],
+   ['Matrices EtherChannel & DTP',T(['A','B','Résultat'],[['PAgP auto','auto','Pas de négociation'],['PAgP auto','desirable','OK'],['PAgP desirable','desirable','OK'],['LACP passive','passive','Pas de négociation'],['LACP active','passive / active','OK'],['on','on','OK (statique)'],['DTP auto','auto','Access'],['DTP desirable','auto / desirable / trunk','Trunk'],['trunk','access','Connectivité limitée']])]
+  ].map(([t,h])=>`<details><summary>${t}</summary>${h}</details>`).join('');
+}
+
+/* ======================= QUIZ ENGINE ======================= */
+function quiz(el,mkGen){const gen=mkGen();let n=0,ok=0;
+const next=()=>{const q=gen();
+ if(!q){el.innerHTML=`<div class="qcard"><h3>Salina 🎉</h3><p>Score: <b>${ok} / ${n}</b></p><button class="btn" id="rp" type="button">Re-jouer</button></div>`;if(ok>=n*.8&&n)boom();el.querySelector('#rp').onclick=()=>quiz(el,mkGen);return}
+ n++;const body=q.opts?`<div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-i="${i}" type="button">${o}</button>`).join('')}</div>`:`<div class="inp"><input id="ai" class="search" placeholder="${q.ph||'Jawab…'}" autocomplete="off" spellcheck="false"><button class="btn" id="ck" type="button">Vérifier</button></div>`;
+ el.innerHTML=`<div class="qcard"><div class="qm">Question ${n} · ✓ ${ok} · 🔥 ${S.streak}</div><h3>${q.q}</h3>${body}<div class="fb" aria-live="polite"></div></div>`;
+ const fin=g=>{if(g){ok++;S.streak++;S.best=Math.max(S.best,S.streak);addXP(10);if(S.streak%5===0){boom();toast('🔥 Série de '+S.streak+'!')}}else{S.streak=0;save();ui()}
+  el.querySelector('.fb').innerHTML=`<div class="${g?'good':'bad'}">${g?'✅ Bravo! +10 XP':'❌ Ma-s7ach.'} ${q.exp?esc(q.exp):''}</div><button class="btn" id="nx" type="button">Suivant</button>`;const nx=el.querySelector('#nx');nx.onclick=next;nx.focus()};
+ if(q.opts)el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const g=+b.dataset.i===q.ans;el.querySelectorAll('.opt').forEach((x,i)=>{x.disabled=true;if(i===q.ans)x.classList.add('right')});if(!g)b.classList.add('wrong');fin(g)});
+ else{const a=el.querySelector('#ai'),c=el.querySelector('#ck'),go=()=>{const g=q.chk(a.value);a.disabled=c.disabled=true;fin(g)};c.onclick=go;a.onkeydown=e=>e.key==='Enter'&&go();a.focus()}};
+next()}
+const mkOpts=(r,w)=>{const o=shuf([r,...w]);return{opts:o.map(esc),ans:o.indexOf(r)}};
+
+const mkQcm=()=>{const L=shuf(QCM.trim().split('\n'));let i=0;return()=>{if(i>=L.length)return null;const [q,r,a,b,c,e]=L[i++].split('~');return{q:esc(q),...mkOpts(r,[a,b,c]),exp:e}}};
+const mkQF=()=>()=>{const it=DB[Math.random()*DB.length|0],same=DB.filter(x=>x.cat.m===it.cat.m&&x.c!==it.c&&x.d&&x.d!==it.d),t=Math.random()*3|0;
+ if(t===1&&it.cat.m==='m201'){const w=shuf(Object.keys(MODES).filter(k=>k!==it.mo)).slice(0,3).map(k=>it.cat.h+MODES[k]);return{q:`Fin kanktbo <code>${esc(it.c)}</code> ?`,...mkOpts(prompt(it),w),exp:it.d}}
+ if(t===2)return{q:`Ina command li: <b>${esc(it.d)}</b> ?`,...mkOpts(it.c,pick(same.map(x=>x.c),3)),exp:it.n||''};
+ return{q:`Chno kaydir <code>${esc(it.c)}</code> ?`,...mkOpts(it.d,pick(same.map(x=>x.d),3)),exp:it.n||''}};
+const mkCalc=()=>()=>{const t=Math.random()*5|0,p=24+(Math.random()*7|0);
+ if(t===0)return{q:`Mask dyal <b>/${p}</b> ?`,ph:'255.255.255.x',chk:v=>v.trim()===n2ip(mk(p)),exp:n2ip(mk(p))};
+ if(t===1)return{q:`Wildcard dyal <b>/${p}</b> ?`,ph:'0.0.0.x',chk:v=>v.trim()===n2ip(~mk(p)>>>0),exp:n2ip(~mk(p)>>>0)};
+ if(t===2)return{q:`Ch7al men hôte f <b>/${p}</b> ?`,ph:'nombre',chk:v=>+v===2**(32-p)-2,exp:String(2**(32-p)-2)};
+ if(t===3){const ip=[192,168,Math.random()*250|0,Math.random()*254|1].join('.'),p2=25+(Math.random()*5|0),a=n2ip((ip2n(ip)&mk(p2))>>>0);return{q:`Adresse réseau dyal <b>${ip}/${p2}</b> ?`,ph:'x.x.x.x',chk:v=>v.trim()===a,exp:a}}
+ const mac=[0,1,2,3,4,5].map(()=>(Math.random()*256|0).toString(16).padStart(2,'0')).join(':'),x=eui(mac);return{q:`EUI-64 dyal MAC <b class="mono">${mac}</b> (interface ID, 16 hex) ?`,ph:'XXXX:XXXX:XXXX:XXXX',chk:v=>v.replace(/[^0-9a-f]/gi,'').toUpperCase()===x.id.replace(/:/g,''),exp:x.id}};
+
+function exo(){
+  const subs=[['qcm','🧠 QCM cours'],['qf','⚡ Quick-fire (auto)'],['fc','🃏 Flashcards'],['ord','🧩 Ordre des étapes'],['calc','🧮 Subnet & EUI-64']];
+  $('#exsub').innerHTML=subs.map(([k,l])=>`<button class="chip" data-k="${k}" type="button">${l}</button>`).join('');
+  const body=$('#exbody');
+  const go=k=>{$$('#exsub .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+   if(k==='qcm')quiz(body,mkQcm);else if(k==='qf')quiz(body,mkQF);else if(k==='calc')quiz(body,mkCalc);else if(k==='fc')flash(body);else ord(body)};
+  $('#exsub').onclick=e=>{const b=e.target.closest('.chip');if(b)go(b.dataset.k)};go('qcm');
+}
+function flash(el){const it=DB[Math.random()*DB.length|0];
+ el.innerHTML=`<div class="qcard"><div class="qm">Flashcard · ${it.cat.t}</div><h3>${esc(it.d)}</h3><p>Chno l-command? Fekker 3la mode dyalha.</p><div id="rv"><button class="btn" id="sh" type="button">Chouf l-jawab</button></div></div>`;
+ el.querySelector('#sh').onclick=()=>{el.querySelector('#rv').innerHTML=`<div class="term"><span class="pr">${esc(prompt(it))}</span> ${esc(it.c)}</div>${it.n?`<div class="nt" style="margin-top:8px">⚠ ${esc(it.n)}</div>`:''}<div class="tools"><button class="btn" id="y" type="button">✓ 3rfto (+3 XP)</button><button class="btn alt" id="n" type="button">✗ Mazal</button></div>`;
+  el.querySelector('#y').onclick=()=>{if(!S.learned.includes(it.c))S.learned.push(it.c);addXP(3);flash(el)};el.querySelector('#n').onclick=()=>flash(el)}}
+function ord(el){const sc=ORD[Math.random()*ORD.length|0];let k=0;const done=[];
+ const draw=()=>{el.innerHTML=`<div class="qcard"><div class="qm">Rtteb l-commands: <b>${esc(sc[0])}</b></div><h3>Click 3la l-command li jaya (${k}/${sc[1].length})</h3><div class="ord" id="pl">${shuf(sc[1].filter(x=>!done.includes(x))).map(x=>`<button class="term" type="button" data-c="${esc(x)}">${esc(x)}</button>`).join('')}</div><div>${done.map(x=>`<div class="term" style="margin:4px 0"><span class="pr">✓</span> ${esc(x)}</div>`).join('')}</div></div>`;
+  el.querySelectorAll('#pl .term').forEach(b=>b.onclick=()=>{if(b.dataset.c===sc[1][k]){done.push(b.dataset.c);k++;if(k===sc[1].length){addXP(25);boom();el.innerHTML=`<div class="qcard"><h3>Mzyan! Tartib s7i7 🎉</h3><p>+25 XP</p><button class="btn" id="an" type="button">Scénario jdid</button></div>`;el.querySelector('#an').onclick=()=>ord(el)}else draw()}else{S.streak=0;save();ui();b.classList.add('shake');toast('Mashi hna. Fekker f l-mantiq.');setTimeout(()=>b.classList.remove('shake'),350)}})};draw()}
+
+/* ======================= LAB CLI ======================= */
+let L={};
+function lab(){$('#labsel').innerHTML=LABS.map((l,i)=>`<button class="chip" data-i="${i}" type="button">${l.t}</button>`).join('');$('#labsel').onclick=e=>{const b=e.target.closest('.chip');if(b)startLab(+b.dataset.i)};
+ $('#rst').onclick=()=>startLab(L.i);$('#hint').onclick=()=>{const s=L.lab.s.find((_,i)=>!L.done[i]);if(s)out(`💡 ${s[2]}: ${s[3]}  (mode ${L.pf(s[0].replace('*',''))})`,'dim')};startLab(0)}
+function startLab(i){const lb=LABS[i];L={i,lab:lb,host:lb.h,mode:'U',done:lb.s.map(()=>false),fin:false,pf:m=>({U:'>',P:'#',G:'(config)#',I:'(config-if)#',L:'(config-line)#',R:'(config-router)#',D:'(dhcp-config)#',V:'(config-vlan)#'}[m]||'#')};
+ $$('#labsel .chip').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.i===i));$('#scr').innerHTML='';out('Cisco IOS simulé. Kteb "enable" w "conf t". Les abréviations ma-khdamch, kteb l-commands kamlin.','dim');line();ck()}
+const cfg=m=>'GILRDV'.includes(m);
+function out(t,c){const d=document.createElement('div');if(c)d.className=c;d.textContent=t;$('#scr').insertBefore(d,$('#scr').querySelector('.ln'))}
+function line(){const old=$('#scr .ln');if(old)old.remove();const d=document.createElement('div');d.className='ln';d.innerHTML=`<span class="pr">${esc(L.host+L.pf(L.mode))}</span><input aria-label="Commande" autocomplete="off" spellcheck="false" autocapitalize="off">`;$('#scr').appendChild(d);const inp=d.querySelector('input');inp.focus();inp.onkeydown=e=>{if(e.key==='Enter'){const c=inp.value.trim();inp.disabled=true;d.className='';d.innerHTML=`<span class="pr">${esc(L.host+L.pf(L.mode))}</span> ${esc(c)}`;run(c);line();$('#scr').scrollTop=1e6}}}
+$('#scr')&&($('#scr').onclick=()=>{const i=$('#scr input');i&&i.focus()});
+function ck(){$('#ck').innerHTML=L.lab.s.map((s,i)=>`<li class="${L.done[i]?'d':''}">${L.done[i]?'✓ ':''}${esc(s[2])}<small>${L.done[i]?esc(s[3]):'Mode: '+esc(L.host+L.pf(s[0].replace('*','')))}</small></li>`).join('')}
+function run(c){if(!c)return;let hit=-1,bad=null;
+ L.lab.s.forEach((s,i)=>{if(hit>=0||L.done[i]||!s[1].test(c))return;const ok=s[0]==='G*'?cfg(L.mode):s[0]===L.mode;if(ok)hit=i;else bad=bad||s});
+ if(hit<0&&bad){out("% Invalid input detected at '^' marker.  (Rak f "+L.host+L.pf(L.mode)+", had l-command khssha mode "+L.host+L.pf(bad[0].replace('*',''))+")",'err');return}
+ const m=c.match(/^hostname (\S+)$/i);if(m&&L.mode==='G')L.host=m[1];
+ let t=true;
+ if(/^en(able)?$/i.test(c)&&L.mode==='U')L.mode='P';
+ else if(/^conf(igure)? t(erminal)?$/i.test(c)&&L.mode==='P'){L.mode='G';out('Enter configuration commands, one per line.  End with CNTL/Z.','dim')}
+ else if(/^exit$/i.test(c))L.mode=cfg(L.mode)&&L.mode!=='G'?'G':L.mode==='G'?'P':'U';
+ else if(/^(end)$/i.test(c)&&cfg(L.mode))L.mode='P';
+ else if(cfg(L.mode)&&/^int(erface)? \S+/i.test(c))L.mode='I';
+ else if(cfg(L.mode)&&/^line (console|vty|aux)/i.test(c))L.mode='L';
+ else if(cfg(L.mode)&&/^router (ospf|rip|eigrp|bgp)/i.test(c))L.mode='R';
+ else if(cfg(L.mode)&&/^ip dhcp pool \S+$/i.test(c))L.mode='D';
+ else if(cfg(L.mode)&&/^vlan \d+$/i.test(c))L.mode='V';
+ else t=false;
+ if(hit>=0){L.done[hit]=true;toast('✓ '+L.lab.s[hit][2]);if(L.done.every(Boolean)&&!L.fin){L.fin=true;out('🎉 Lab terminé!','pr');addXP(40);boom()}}
+ else if(!t)out('% Command machi mn had lab (tm tjahloha).','dim');
+ ck()}
+
+/* ======================= INIT ======================= */
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)$$('animateMotion').forEach(a=>a.parentNode.remove());
+$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);r.dataset.theme=d?'light':'dark'};
+ui();show('home');
+</script>
+</body>
+</html>
